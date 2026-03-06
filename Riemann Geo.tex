@@ -1634,4 +1634,358 @@ Thus, $q \in \text{Im}(\pi)$, proving that $\pi$ is surjective.
 \end{proof}
 }
 
+\newpage
+{
+
+\section{Lecture 13}
+\subsection{Distance function}
+Say $M$ is a connected Riemannian manifold, $S \subset M$ any subset.
+
+\begin{definition}
+$d(x, S) = \inf_{p \in S} d(x, p)$.
+\end{definition}
+
+\begin{lemma}
+$|d(x, S) - d(y, S)| \le d(x, y)$, i.e., $d(\cdot, S)$ is Lipschitz.
+\end{lemma}
+
+\noindent\textbf{Fact:}
+Any Lipschitz function on a Riemannian manifold is differentiable almost everywhere (a.e.). If it is differentiable, $|\nabla f(x)| \le 1$.
+
+
+\begin{prop}
+If $f(\cdot) = d(\cdot, S)$ is $C^1$ on an open subset $U$ of $M \setminus S$, then $|\nabla f(x)| = 1$ on $U$.
+\end{prop}
+
+\begin{proof}
+Suppose $|\nabla f| < 1$, then $\exists \epsilon, \delta > 0$ so on $\overline{B_\epsilon(x)} \subset U$, $|\nabla f| \le 1 - \delta$.
+
+Choose $c < \delta \epsilon$. $\exists$ admissible curve $\alpha: [0, b] \to M$ of unit speed, with $\alpha(0) = x$, $\alpha(b) = q \in S$, and $b = L(\alpha) < d(x, S) + c$.
+
+Since $\overline{B_\epsilon(x)} \subset U \subset M \setminus S$, we must have $b > \epsilon$. So $\alpha|_{[\epsilon, b]}$ is an admissible curve.
+We have:
+\[
+d(\alpha(\epsilon), S) \le d(\alpha(\epsilon), q) \le L(\alpha|_{[\epsilon, b]}) < d(x, S) + c - \epsilon.
+\]
+On the other hand,
+\[
+\left| \frac{d}{dt} f(\alpha(t)) \right| = |\langle \nabla f, \alpha' \rangle| \le 1 - \delta \quad \text{for } t \in [0, \epsilon].
+\]
+Integrating this, we get:
+\[
+f(x) - f(\alpha(\epsilon)) \le (1 - \delta)\epsilon.
+\]
+Recalling $f(\cdot) = d(\cdot, S)$, we put $t = \epsilon$ to obtain $d(x, S) - d(\alpha(\epsilon), S) \le (1 - \delta)\epsilon$.
+So,
+\[
+d(\alpha(\epsilon), S) \ge d(x, S) - \epsilon + \delta \epsilon > d(x, S) - \epsilon + c.
+\]
+This contradicts the earlier inequality $d(\alpha(\epsilon), S) < d(x, S) + c - \epsilon$.
+\end{proof}
+
+\begin{definition}
+If $U \subset M$ is open, a \textbf{local distance function} on $U$ is a $C^1$ function so that $|\nabla f| = 1$.
+\end{definition}
+
+If $f$ is a local distance function, then $f$ is locally the distance from a level set of $f$.
+
+\begin{theorem}
+If $f$ is a local distance function, then $\nabla_{\nabla f} \nabla f = 0$. Each integral curve of $\nabla f$ is a geodesic.
+\end{theorem}
+
+\begin{proof}
+Put $F = \nabla f$. For any vector field $W$, $Wf = df(W) = \langle F, W \rangle$. And $Ff = |F|^2 = 1$.
+
+We compute:
+\begin{align*}
+\langle W, \nabla_F F \rangle &= F \langle W, F \rangle - \langle \nabla_F W, F \rangle \\
+&= F(Wf) - \langle \nabla_W F + [F, W], F \rangle \quad \text{(since $\nabla$ is torsion-free)} \\
+&= F(Wf) - [F, W]f - \frac{1}{2} W \langle F, F \rangle \\
+&= W(Ff) - \frac{1}{2} W(1) \\
+&= W(1) - 0 = 0.
+\end{align*}
+Hence $\nabla_F F = 0$. If $\gamma' = \nabla f$, then $\gamma$ is a unit-speed geodesic.
+\end{proof}
+
+\subsection{Riemann Covering}
+\begin{theorem}[Ambrose]
+Say $\tilde{M}, M$ are connected manifolds, $\tilde{M}$ is complete, and $\pi: \tilde{M} \to M$ is a local isometry. Then $M$ is complete and $\pi$ is a covering map.
+\end{theorem}
+
+\begin{proof}
+Use the lifting lemma. Let $\gamma$ be a geodesic through $p$. For $\tilde{p} \in \pi^{-1}(p)$, then $\exists \tilde{\gamma}$ geodesic through $\tilde{p}$ such that $\pi \circ \tilde{\gamma} = \gamma$. This shows $M$ is complete and $\pi$ is surjective.
+
+For the second assertion, let $p \in M$ and let $U = B_\epsilon(p)$ be a normal $\epsilon$-ball. Write $\pi^{-1}(p) = \{\tilde{p}_\alpha\}$. Say $U_\alpha$ is the $\epsilon$-ball around $\tilde{p}_\alpha$. I claim that for $\alpha \neq \beta$, $U_\alpha \cap U_\beta = \emptyset$.
+\begin{itemize}
+    \item \textit{Proof of claim:} Draw minimal geodesic $\tilde{\gamma}: \tilde{p}_\alpha \to \tilde{p}_\beta$. Then $\pi \circ \tilde{\gamma}$ is a non-constant geodesic from $p \to p$. So $L(\tilde{\gamma}) = L(\pi \circ \tilde{\gamma}) \ge 2\epsilon$ (since it has to go outside the $\epsilon$-ball!). This proves the claim.
+\end{itemize}
+To show $\pi^{-1}(U) = \coprod_\alpha U_\alpha$:
+\begin{enumerate}
+    \item[a.] Show $\pi^{-1}(U) \supset U_\alpha$: Say $\tilde{q}_\alpha \in U_\alpha$. Let $\tilde{\gamma}_\alpha$ be the geodesic $\tilde{p}_\alpha \to \tilde{q}_\alpha$ of length $< \epsilon$. Then $\pi \circ \tilde{\gamma}_\alpha$ is a geodesic in $U$, starting at $p$ and of length $< \epsilon$. Hence $\pi(\tilde{q}_\alpha) \in U$, i.e., $\tilde{q}_\alpha \in \pi^{-1}(U)$.
+    \item[b.] Show $\pi^{-1}(U) \subset \coprod_\alpha U_\alpha$: Say $\tilde{q} \in \pi^{-1}(U)$. Put $q = \pi(\tilde{q}) \in U$. Let $\gamma$ be the geodesic $p \to q$ of length $< \epsilon$. Lift this to $\tilde{\gamma}$ starting from $\tilde{q}$; the endpoint of $\tilde{\gamma}$ is some $\tilde{p}_\alpha \in \pi^{-1}(p)$. Hence $\tilde{q} \in U_\alpha$.
+\end{enumerate}
+To show $\pi|_{U_\alpha}: U_\alpha \to U$ is a diffeomorphism: $\pi|_{U_\alpha}$ is a local diffeomorphism. $(\pi|_{U_\alpha})^{-1}$ is a local diffeomorphism by lifting radial geodesics.
+\end{proof}
+
+\begin{corollary}
+If $M, \tilde{M}$ are connected, and $\pi: \tilde{M} \to M$ is a Riemannian covering, then $M$ is complete iff $\tilde{M}$ is complete.
+\end{corollary}
+
+\begin{proof}
+$\pi$ is a local isometry, so $\tilde{M}$ complete $\implies M$ complete.
+Conversely, suppose $M$ is complete. For $\tilde{p} \in \tilde{M}$, $\tilde{V} \in T_{\tilde{p}}\tilde{M}$, put $p = \pi(\tilde{p})$, $V = d\pi_{\tilde{p}}(\tilde{V})$. $\exists$ geodesic $\gamma$ with $\gamma(0) = p, \gamma'(0) = V$. Lift to $\tilde{\gamma}$. $|\tilde{\gamma}'(0)| = |\tilde{V}|$. Hence all geodesics in $\tilde{M}$ are defined for $t \in \mathbb{R}$.
+\end{proof}
+
+\begin{corollary}
+Suppose $(M, g)$ is a complete Riemannian manifold, $p, q \in M$, and $\mathcal{C}$ is a homotopy class of curves $p \to q$. Then $\exists$ a minimal geodesic in $\mathcal{C}$.
+\end{corollary}
+
+\begin{proof}
+Put $\tilde{M}$ to be the universal cover. Fix $\tilde{p} \in \pi^{-1}(p)$. Then $\mathcal{C} \cong \pi^{-1}(q)$. Given $\tilde{q}_\alpha \in \pi^{-1}(q)$, $\exists$ minimal geodesic $\tilde{\gamma}: \tilde{p} \to \tilde{q}_\alpha$. Put $\gamma = \pi \circ \tilde{\gamma}$.
+\end{proof}
+
+\begin{corollary}
+For any $\alpha \in \pi_1(M, p)$, $\exists$ minimal length loop geodesic in $\alpha$.
+\end{corollary}
+
+\begin{remark}
+The geodesic loop could have an angle at $p$.
+\end{remark}
+
+We have a correspondence:
+\[
+\{\text{free homotopy classes in } M\} \longleftrightarrow \{\text{conjugacy classes of } \pi_1(M)\}.
+\]
+We can minimize length in a free homotopy class and get a closed smooth geodesic.
+
+\begin{corollary}
+If $\pi_1(M) \neq \{e\}$, then $M$ has a nonconstant smooth closed geodesic.
+\end{corollary}
+
+\noindent\textbf{Fact:}[Lusternik-Schnirelmann]
+For $n \ge 2$, if $M \cong S^n$, there exist at least three distinct "prime" closed geodesics.
+
+
+}
+
+\newpage
+{
+\section{Lecture 14}
+
+\subsection{Riemann Curvature Tensor}
+
+\begin{definition}
+The Riemann curvature tensor is defined as
+\[ R(X,Y)Z = \nabla_X \nabla_Y Z - \nabla_Y \nabla_X Z - \nabla_{[X,Y]} Z \in \mathfrak{X}(M). \]
+\end{definition}
+
+\begin{prop}
+It is a $(1,3)$ tensor field.
+\end{prop}
+
+\begin{remark}\textit{Notation:}
+$R(\partial_i, \partial_j)\partial_k = \sum_l R_{ijk}^l \partial_l$. As a tensor, $R = \sum_{i,j,k,l} R_{ijk}^l dx^i \otimes dx^j \otimes dx^k \otimes \partial_l$.
+\end{remark}
+
+\begin{definition}
+$Rm(X,Y,Z,W) = \langle R(X,Y)Z, W \rangle$. $Rm$ is a $(0,4)$ tensor field, with $R_{ijkl} = \sum_m R_{ijk}^m g_{ml}$.
+\end{definition}
+
+\begin{remark}\textit{Coordinate formula:}
+\[ R_{ijk}^l = \partial_i \Gamma_{jk}^l - \partial_j \Gamma_{ik}^l + \sum_m \left( \Gamma_{im}^l \Gamma_{jk}^m - \Gamma_{jm}^l \Gamma_{ik}^m \right). \]
+\end{remark}
+
+\begin{remark}\textit{Change of coordinates:}
+\begin{align*}
+\tilde{g}_{ij}(y) &= \sum_{k,l} g_{kl}(x) \frac{\partial x^k}{\partial y^i} \frac{\partial x^l}{\partial y^j}, \\
+\tilde{R}_{ijkl}(y) &= \sum_{a,b,c,d} R_{abcd}(x) \frac{\partial x^a}{\partial y^i} \frac{\partial x^b}{\partial y^j} \frac{\partial x^c}{\partial y^k} \frac{\partial x^d}{\partial y^l}.
+\end{align*}
+\end{remark}
+
+\begin{remark}\textit{Riemann's reasoning for $R(X,Y)Z$:}
+\begin{enumerate}
+    \item Curvature at $x$ should depend on $g_{ij}, g^{ij}, \partial_k g_{ij}, \partial_k \partial_l g_{ij}$.
+    \item If $g_{ij} = \frac{\partial \vec{X}}{\partial x^i} \cdot \frac{\partial \vec{X}}{\partial x^j}$ for some $\vec{X} : \mathbb{R}^n \to \mathbb{R}^N$, then the curvature should be zero.
+\end{enumerate}
+\end{remark}
+
+\begin{prop}[Symmetries]
+\begin{enumerate}
+    \item $Rm(W,X,Y,Z) = -Rm(X,W,Y,Z) \implies R_{ijkl} = -R_{jikl}$.
+    \item $Rm(W,X,Y,Z) = -Rm(W,X,Z,Y) \implies R_{ijkl} = -R_{ijlk}$.
+    \item $Rm(W,X,Y,Z) = Rm(Y,Z,W,X) \implies R_{ijkl} = R_{klij}$.
+    \item \textbf{1st Bianchi identity:} 
+    \[ Rm(W,X,Y,Z) + Rm(X,Y,W,Z) + Rm(Y,W,X,Z) = 0 \implies R_{ijkl} + R_{jkil} + R_{kijl} = 0. \]
+\end{enumerate}
+\end{prop}
+
+\begin{prop}[2nd Bianchi Identity]
+Define $(\nabla_X Rm)(Y,Z,V,W) = \nabla Rm(X,Y,Z,V,W)$. Then:
+\[ \nabla Rm(X,Y,Z,V,W) + \nabla Rm(X,Y,V,W,Z) + \nabla Rm(X,Y,W,Z,V) = 0. \]
+In coordinates (cyclic permutation on the last three indices):
+\[ R_{ijkl;m} + R_{ijlm;k} + R_{ijmk;l} = 0. \]
+\end{prop}
+
+\begin{example}
+\begin{itemize}
+    \item $n=1$: $R_{1111} = 0$, so $Rm = 0$.
+    \item $n=2$: Say $\{e_1, e_2\}$ is an ONB for $T_p M$, $R_{1221} = K$ (Gaussian curvature on $M$).
+    \item $n$: There are $\frac{n^2(n^2-1)}{12}$ independent components of $Rm$.
+\end{itemize}
+\end{example}
+
+\begin{definition}[Ricci Curvature]
+The Ricci curvature is a $(0,2)$ tensor field defined by:
+\[ R_{ij} = \sum_{k,l} g^{kl} R_{iklj}, \quad R_{ij} = R_{ji}. \]
+\end{definition}
+
+\begin{definition}[Scalar Curvature]
+The scalar curvature is defined by:
+\[ S = \sum_{i,j} g^{ij} R_{ij} = \sum_{i,j,k,l} g^{ij} g^{kl} R_{ikjl}. \]
+\end{definition}
+
+\vspace{1cm}
+
+\subsection{Sectional Curvature \& Schur's Theorem}
+
+\begin{prop}[Contracted Bianchi Identity]
+\[ R_{ij}{}^{;j} = \frac{1}{2} S_{;i} \quad \text{i.e., } \left( R_{ij} - \frac{1}{2} S g_{ij} \right)^{;j} = 0. \]
+Here the notation means $S_{;i} = \nabla_i S$, $R_{ij;k} = \nabla_k R_{ij}$.
+\end{prop}
+
+\begin{definition}[Pointwise Constant Sectional Curvature]
+$M$ has pointwise constant sectional curvature if $\exists K \in C^\infty(M)$ such that
+\[ R_{ijkl} = K (g_{ik}g_{jl} - g_{il}g_{jk}). \]
+\end{definition}
+
+\begin{theorem}[Schur's Theorem]
+If $M$ is connected with $\dim M > 2$ and has pointwise constant sectional curvature, then $K$ is constant.
+\begin{proof}
+Given $R_{ijkl} = K (g_{ik}g_{jl} - g_{il}g_{jk})$. By index substitution, $R_{ikjl} = K (g_{ij}g_{kl} - g_{il}g_{kj})$.
+Taking the trace with $g^{kl}$ yields the Ricci tensor:
+\begin{align*}
+R_{ij} &= g^{kl} R_{ikjl} = K g^{kl} (g_{ij}g_{kl} - g_{il}g_{kj}) \\
+&= K (g_{ij} \cdot n - g_{ij}) = K(n-1)g_{ij}.
+\end{align*}
+Taking the trace again gives the scalar curvature:
+\[ S = g^{ij} R_{ij} = K(n-1) \cdot n = K n(n-1). \]
+Now apply the contracted Bianchi identity, $R_{ij}{}^{;j} = \frac{1}{2} S_{;i}$:
+\begin{align*}
+\text{LHS:} \quad R_{ij}{}^{;j} &= \nabla^j (K(n-1)g_{ij}) = (n-1) K_{;j} \delta_i^j = (n-1) K_{;i}. \\
+\text{RHS:} \quad \frac{1}{2} S_{;i} &= \frac{1}{2} n(n-1) K_{;i}.
+\end{align*}
+Equating both sides:
+\[ \frac{1}{2} n(n-1) K_{;i} = (n-1) K_{;i} \implies (n-1)\left(\frac{n}{2} - 1\right) K_{;i} = 0. \]
+Since $n > 2$, we have $(n-1) \neq 0$ and $\left(\frac{n}{2} - 1\right) \neq 0$. Thus, $K_{;i} = 0$, meaning $K$ is locally constant. Since $M$ is connected, $K$ is globally constant.
+\end{proof}
+\end{theorem}
+
+\begin{definition}[Einstein Manifold]
+An Einstein manifold is a Riemannian manifold such that $R_{ij} = c g_{ij}$ for some constant $c \in \mathbb{R}$.
+\end{definition}
+
+\begin{prop}
+If $M$ is connected with $\dim M > 2$ and $R_{ij} = f g_{ij}$ for some $f \in C^\infty(M)$, then $f$ is constant. (The proof follows identically from the contracted Bianchi identity as in Schur's Theorem.)
+\end{prop}
+
+\vspace{0.5cm}
+
+\subsection{Isometric Immersions}
+
+\begin{definition}[Isometric Immersion]
+Let $(M, g)$ and $(\tilde{M}, \tilde{g})$ be Riemannian manifolds. An immersion $i: M \to \tilde{M}$ is an isometric immersion if $g = i^* \tilde{g}$, i.e.,
+\[ g(X,Y) = \tilde{g}(di(X), di(Y)) \quad \text{for all } X,Y \in T_p M. \]
+Given $\tilde{g}$ and an immersion $i$, there is a unique metric $g$ on $M$ such that $i$ is an isometric immersion.
+\end{definition}
+
+\begin{definition}[Normal Bundle]
+The tangent space of the ambient manifold at $p$ splits as $T_{i(p)} \tilde{M} = di_p(T_p M) \oplus T_p M^\perp$. 
+The normal bundle is $NM = \coprod_{p\in M} T_p M^\perp$, so $T \tilde{M}|_M \simeq TM \oplus NM$.
+\end{definition}
+
+\begin{remark}
+With $\tilde{g}$, we can define the orthogonal projections:
+\begin{align*}
+\Pi^\top &: T \tilde{M}|_M \to TM, \\
+\Pi^\perp &: T \tilde{M}|_M \to NM.
+\end{align*}
+\end{remark}
+
+\newcommand{\II}{\mathrm{I\!I}}
+\subsection{Induced Connection on Submanifolds}
+
+Say $M$ is embedded in $\tilde{M}$.
+
+\begin{prop}
+Given $X, Y \in \mathfrak{X}(M)$, extend to $\tilde{X}, \tilde{Y}$ on a neighborhood of $M$ in $\tilde{M}$. Then
+\[
+\pi^\top(\tilde{\nabla}_{\tilde{X}} \tilde{Y}) = \nabla_X Y,
+\]
+the Levi-Civita connection on $M$.
+\end{prop}
+
+\begin{proof}
+Put $D_X Y = \pi^\top(\tilde{\nabla}_{\tilde{X}} \tilde{Y})$. Show $D_X Y$ is independent of extensions. $D$ is a connection, metric-compatible and torsion-free. Then $D_X Y = \nabla_X Y$.
+\end{proof}
+
+\subsection*{2nd Fundamental Form}
+
+\begin{definition}
+\[
+\II(X, Y) = \pi^\perp(\tilde{\nabla}_{\tilde{X}} \tilde{Y}),
+\]
+a section of $NM$ (the normal bundle).
+\end{definition}
+
+\begin{prop}
+\begin{enumerate}
+    \item This is independent of extensions $\tilde{X}, \tilde{Y}$.
+    \item It's $C^\infty(M)$-linear in $X, Y$.
+    \item $\II(X, Y) = \II(Y, X)$.
+\end{enumerate}
+\end{prop}
+
+\subsection*{Proofs of the Properties}
+
+\begin{proof}[Proof of 3]
+\begin{align*}
+\II(X, Y) - \II(Y, X) &= \pi^\perp(\tilde{\nabla}_{\tilde{X}} \tilde{Y} - \tilde{\nabla}_{\tilde{Y}} \tilde{X}) \\
+&= \pi^\perp([\tilde{X}, \tilde{Y}]) \\
+&= 0 \quad (\text{since } [\tilde{X}, \tilde{Y}]|_M = [X, Y] \text{ is tangent to } M)
+\end{align*}
+\end{proof}
+
+\begin{proof}[Proof of 1]
+Using 3, enough to show independent of choice of $\tilde{X}$.
+\[
+\pi^\perp(\tilde{\nabla}_{\tilde{X}} \tilde{Y})(p) \quad \text{depends on } \tilde{X} \text{ through } \tilde{X}(p) = X(p).
+\]
+\end{proof}
+
+\begin{proof}[Proof of 2]
+Using 3, enough to show it's $C^\infty(M)$-linear in $X$. Let $\tilde{f}$ be an extension of $f \in C^\infty(M)$.
+\begin{align*}
+\II(fX, Y) &= \pi^\perp(\tilde{\nabla}_{\tilde{f}\tilde{X}} \tilde{Y}) \\
+&= \pi^\perp(\tilde{f} \tilde{\nabla}_{\tilde{X}} \tilde{Y}) \\
+&= f \pi^\perp(\tilde{\nabla}_{\tilde{X}} \tilde{Y}) \\
+&= f \II(X, Y)
+\end{align*}
+\end{proof}
+
+\subsection*{Summary (Gauss Formula)}
+
+Given an immersion, we get:
+\[
+\II_p : T_p M \times T_p M \to N_p M
+\]
+which is symmetric in its arguments.
+
+On $M$, we have the decomposition (Gauss Formula):
+\[
+\tilde{\nabla}_{\tilde{X}} \tilde{Y} = \nabla_X Y + \II(X, Y)
+\]
+
+
+}
+
 \end{document}
