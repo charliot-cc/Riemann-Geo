@@ -1,0 +1,97 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+
+\title{Riemannian Geometry Hw2}
+\author{Cheng Chen}
+
+% Theorem/definition environments: unified styles and numbering by section
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{prop}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\date{}
+
+\newcommand{\Lie}{\mathcal{L}_}
+\newcommand{\cR}{\mathbb{R}}
+\newcommand{\p}{\partial}
+\newcommand{\gm}{\Gamma}
+\newcommand{\tgm}{\tilde{\Gamma}}
+\newcommand{\tE}{\tilde{E}}
+
+\begin{document}
+
+\maketitle
+\noindent\textbf{4-2}
+\begin{proof}
+    \textbf{(a)} It is not a connection because it does not have $C^\infty$-linearity in $X$. Check
+    \[
+        \Lie{fX}Y = [fX,Y] = f[X,Y] - Y(f)X \neq f\Lie{X}Y.
+    \]
+    \textbf{(b)} Let the coordinates of $\cR^2$ be $(x^1,x^2)$, and the tangent vector fields be $\partial_1 = \frac{\p}{\p x^1}$ and $\partial_2 = \frac{\p}{\p x^2}$.
+    Consider $X = \p_1$ and $Y = \p_1 + x^2\p_2$. We have
+    \[
+        X = Y = \p_1\quad\text{ along the $x^1$-axis}
+    \]
+    and 
+    \[
+        \Lie{X}\p_2 = 0 \neq \Lie{Y}\p_2 = -\p_2
+    \]  
+\end{proof}
+
+\newcommand{\eps}{\varepsilon}
+
+\noindent\textbf{4-3}
+\begin{proof}
+    On one hand, the Christoffel symbols are given by 
+    \[ \nabla_{\tE_i}\tE_j = \tgm_{ij}^k\tE_k. \]
+    On the other hand, we have
+    \begin{align*}
+        \nabla_{\tE_i}\tE_j &= \nabla_{(A_i^qE_q)} (A_j^r E_r)\\
+        &= A_i^q \nabla_{E_q}(A_j^r E_r)\\
+        &= A_i^q \left( E_q(A_j^r)E_r + A_j^r \gm_{qr}^p E_p \right)\\
+        &= A_i^q \left( E_q(A_j^p) + A_j^r \gm_{qr}^p  \right)E_p\\
+        &= A_i^q \left( E_q(A_j^p)E_p + A_j^r \gm_{qr}^p  \right)(A^{-1})^k_p \tE_k\\
+        &= (A^{-1})_p^k A_i^qA_j^r \gm_{qr}^p \tE_k + A_i^q E_q(A_j^p)(A^{-1})_p^k \tE_k.
+    \end{align*}
+    Comparing the two expressions, we get
+    \[ \tgm_{ij}^k = (A^{-1})_p^k A_i^qA_j^r \gm_{qr}^p + A_i^q E_q(A_j^p)(A^{-1})_p^k. \]
+\end{proof}
+
+\noindent\textbf{4-14}
+\begin{proof}
+    \textbf{(a)} First, consider the case when $X = E_j$. In this case, we have
+    \[ \nabla_X E_i = \nabla_{E_j} E_i = \gm_{ji}^k E_k = \omega_i^{\,\, k} (E_j)E_k. \]
+    Then, if $\omega_i^{\,\,k}$ is smooth 1-form, then it has to be $$\omega_i^{\,\, k} = \gm_{ji}^k \eps^j.$$
+    This proofs uniqueness. On the other hand, we check that the above $\omega_i^{\,\, k}$ satisfies the requirement. For any $X = X^j E_j$, we have
+    \[ \omega_i^{\,\, k}(X) = \gm_{ji}^k X^j, \]
+    and thus 
+    \[  \nabla_X E_i = \omega_i^{\,\, k}(X)E_k. \]
+
+    \textbf{(b)} Recall that
+    \[ d\eps^j(X,Y) = X(\eps^j(Y)) - Y(\eps^j(X)) - \eps^j([X,Y]). \]
+    Since $\tau(X,Y) = \nabla_X Y - \nabla_Y X - [X,Y]$, we rewrite the above equation as
+    \[ d\eps^j(X,Y) = X(Y^j) - \eps^j(\nabla_X Y) - (Y(X^j) - \eps^j(\nabla_Y X)) + \eps^j(\tau(X,Y)). \]
+    Next, we calculate
+    \[\eps^j(\nabla_X Y) = \eps^j(\nabla_X Y^kE_k) = \eps^j(\sum_k X(Y^k)E_k + Y^k \omega_k^{\,\,p}(X)E_p) = X(Y^j) + \sum_kY^k \omega_k^{\,\,j}(X). \]
+    Hence,
+    \[X(Y^j) - \eps^j(\nabla_X Y) = -\sum_kY^k \omega_k^{\,\,j}(X) = \eps^i(Y)\omega_i^{\,\,j}(X). \]
+    \[Y(X^j) - \eps^j(\nabla_Y X) = -\sum_kX^k \omega_k^{\,\,j}(Y) = \eps^i(X)\omega_i^{\,\,j}(Y). \]
+    Therefore, we have
+    \[ d\eps^j(X,Y) = \eps^i(X)\omega_i^{\,\,j}(Y) - \eps^i(Y)\omega_i^{\,\,j}(X) + \tau^i(X,Y) \Rightarrow d\eps^j = \eps^i\wedge\omega_i^{\,\,j} + \tau^i. \]
+\end{proof}
+
+
+\end{document}

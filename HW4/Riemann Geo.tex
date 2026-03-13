@@ -1,0 +1,116 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+
+\title{Riemannian Geometry HW 4}
+\author{Cheng Chen}
+
+% Theorem/definition environments: unified styles and numbering by section
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{prop}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\newcommand{\Gm}{\Gamma}
+\newcommand{\gm}{\gamma}
+\newcommand{\p}{\partial}
+\newcommand{\mt}[1]{\langle #1 \rangle}
+\newcommand{\dgm}{\dot\gm}
+
+\noindent\textbf{6-23}
+\begin{proof}
+    \textbf{(a):} 
+    First, we invest the case where $\gm$ is smooth. Let $\Gm(s,t)$ be a variation of curve $\gm(s,t)$ with variational field $V$ such that $\Gm(0,t) = \gamma(t)$ and
+    $V(t) = \p_s \Gm(0,t)$.
+    We calculate the derivative of the energy functional with respect to variation $\Gm$ along $\p_s$.
+    \begin{align*}
+        \frac{d}{ds} \frac{1}{2}\int_a^b |\p_t \Gm(s,t)|^2dt &= \frac{1}{2} \int_a^b \p_s\mt{\p_t\Gm,\p_t\Gm}dt\\
+        &= \int_a^b \mt{D_s\p_t\Gm,\p_t\Gm}dt \quad\text{(By metric-compatibility)}\\
+        &= \int_a^b \mt{D_t\p_s\Gm,\p_t\Gm}dt \quad\text{(By lemma)}\\
+        &= \int_a^b \left(\p_t\mt{\p_s\Gm,\p_t\Gm} - \mt{\p_s\Gm,D_t\p_t\Gm}\right)dt\quad \text{(By metric compatibility)}\\
+        &= \left[\mt{\p_s\Gm,\p_t\Gm}\right]_a^b - \int_a^b\mt{\p_s\Gm,D_t\p_t\Gm}dt
+    \end{align*}
+    
+    Evaluate it at $s=0$, we get
+    \[
+        \left.\frac{d}{ds}L(\Gm_s)\right|_{s=0} = \mt{V(b),\dot\gm(b)} - \mt{V(A),\dot\gm(a)} - \int_a^b \mt{V(t),D_t \dot\gm(t)} dt.
+    \]
+    For the general case, let $\gm$ be admissible with critical points $a=a_0 < a_1 < ... < a_k = b$. Then we obtain the first variation
+    formula for the energy functional
+    \[
+        \left.\frac{d}{ds}L(\Gm_s)\right|_{s=0} = \sum_{i=1}^{k-1}\mt{V(a_i),\Delta_i\dgm} + \mt{V(b),\dot\gm(b)} - \mt{V(A),\dot\gm(a)} - \int_a^b \mt{V(t),D_t \dot\gm(t)} dt.
+    \]
+    Note that this has exctly the same form as the first variation for the length functional of constant speed admissible curves. Hence, we can immediately conclude that 
+    the critial point, $\gm$, for $E$ is actually a smooth geodesic. Conversely, if $\gm$ is a geodesic then by simple calculation we
+    have that $\left.\frac{d}{ds}L(\Gm_s)\right|_{s=0} =0$, hence it is a critical point for $E$.
+
+    \textbf{(b):} If $\gm$ minimizes the energy functional, then by \textbf{(a)}, it is a smooth geodesic. While geodesics are of constant
+    speed, $\gm$ is also the critical point for the length functional of constant speed curves. Hence, it minimizes the length.
+
+    \textbf{(c):} $\Rightarrow$: If it minimizes energy, then it is smooth geodesic, hence has constant speed.\\
+    $\Leftarrow$: If it has constant speed and minimizes the length, then it is smooth geodesic, hence minimizes the energy.
+\end{proof}
+\newpage
+\noindent\textbf{6-24}
+\newcommand{\at}[2]{\left. #1 \right|_{#2}}
+\newcommand{\lie}[1]{\mathcal{L}_{#1}}
+\newcommand{\nba}{\nabla}
+\newcommand{\der}[2]{\left.\frac{d}{d#1}\right|_{#1 = #2}}
+\begin{proof}
+    \textbf{(0):} First, we proof the claim in Problem 5-22 what $(\nba X)^\flat$ is anti-symmetric. Indeed, we can compute
+    \begin{align*}
+        (\nba X)^\flat (Y,Z) + (\nba X)^\flat (Y,Z) &= \mt{\nba_Y Y,Z} + \mt{\nba_Z X,Y}\\
+        &= \mt{[Y,X],Z} + \mt{[Z,X],Y} = - \mt{\lie{X} Y,Z} - \mt{\lie{X}Z ,Y}\\
+        &= - \der{t}{0}\left( \mt{\Phi_t^* Y,Z} + \mt{\Phi_t^*Z,Y} \right)\\
+        &= -\lim_{t\to 0}\frac{1}{t} \left(\mt{\Phi^*_t Y - Y , \Phi_t^* Z} + \mt{Y,\Phi_t^* Z - Z}\right)\\
+        &= -\lim_{t\to 0}\frac{1}{t} \left(\mt{\Phi_t^* Y,\Phi_t^* Z} - \mt{Y,Z}\right)\\
+        &= -\der{t}{0}(\Phi_t^*)g (Y,Z) = \lie{X} g (Y,Z) = 0.
+    \end{align*}
+
+
+    \textbf{(a):} Since $X$ is Killing vector field,  $(\nabla X)^\flat$ is anti-symmetric, i.e. for any $Y,Z\in\mathfrak{X}(M)$,
+    \[\mt{\nba_YX,Z} + \mt{\nba_Z X,Y} = 0.\]
+    We look at the derivative of $\mt{X,\dgm}$ along $\p_t$, calculation gives
+    \begin{align*}
+        \frac{d}{dt}\mt{X,\dgm} &= \p_t \mt{X,\dgm}\\
+        &= \mt{D_t X,\dgm} + \mt{X, D_t\dgm}\quad\text{(metric compatibility)}\\
+        &= \mt{\nba_{\dgm} X,\dgm} + 0 = -\mt{\nba_{\dgm} X,\dgm} = 0
+    \end{align*}
+    Therefore, if $X$ is tangent to $\dgm$ at some point, than it is tangent to $\dgm$ at all points.
+
+    \textbf{(b):} For every geodesic that comes out from $p$, \textbf{(a)} says that $X$ is tangent to it at every point. By Gauss lemma,  for
+    any point $q$ on a geodesic sphere centered at $p$, there is a radial geodesic $\gm$ that connects $p$ and $q$. We know that
+    $X\bot \dgm$, while $\dgm^\bot$ is all the tangental directions, hence $X$ is tangent to the geodesic sphere.
+    
+    \textbf{(c):} Suppose $X = 0$ at $p\in M$. $(\nba X)^\flat$ is an anti-symmetric bilinear form on $T_p M$.  We know from linear algebra that an anti-symmetric metrix on an odd-dimensional vector space must have a non-trivial
+    null space. Hence there exist a vector $v\in T_p M$ so that $(\nba X)^\flat (v) = \nba_v X = 0$.
+
+    We consider the geodesic $\gm(t) = \exp_p(tv)$. Its Lie derivative along $X$ is 
+    \[(\lie{X}\dgm)_p = (\nba_X \dgm - \nba_{\dgm} X)_p = (\nba_0 \dgm - \nba_v X)_p = 0.\]
+    On the other hand, let $\{\Phi_s\}$ be the flow generated by $X$, from the definition of Lie derivative
+    \[0 = (\lie{X}\dgm)_p = \der{s}{0} (d\Phi_{-s})_p(\dgm).\]
+    While $(d\Phi_0)_p(v) = v$, $(d\Phi_s)_p (v) = v$ for all $s$. Then we consider the isometric action of $\Phi_s$ on $\gm$.
+    \[\Phi_s(\gm(t)) = \Phi_s(\exp_p(vt)) = \exp_{\Phi_s(p)}(t\cdot (d\Phi_s)_p(v)) = \exp_p (t\cdot v) =\gm(t).\]
+    Hence all points on $\gm$ are invariant point of flow of $X$, which implies that $X=0$ on $\gm(t)$. Hence, $X$ do not have isolated zero.
+    
+    
+\end{proof}
+
+\end{document}

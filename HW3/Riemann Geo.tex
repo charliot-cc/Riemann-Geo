@@ -1,0 +1,113 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+
+\title{Riemannian Geometry HW 3}
+\author{Cheng Chen}
+
+% Theorem/definition environments: unified styles and numbering by section
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{prop}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\newcommand{\nba}{\nabla}
+\newcommand{\mtc}{metric-compatible}
+\newcommand{\mt}[1]{\langle #1 \rangle}
+\newcommand{\upd}[1]{^{\,\,#1}}
+\newcommand{\omg}[2]{\omega_{#1}^{\,\,#2}}
+
+\noindent\textbf{5-2}
+\begin{proof}
+    If $\nba$ is $g$-compatible, then by our calculation, for any $X \in \mathfrak{X}(M)$,
+    \begin{align*}
+        X\mt{E_i, E_j} &= Xg_{ij} &= dg_{ij}(X) \\
+        \text{On the other hand } &= \mt{\nba_X E_i, E_j} + \mt{E_i, \nba_X E_j} \\
+        &= \sum_k \mt{\omega_i\upd{k}(X) E_k, E_j} + \mt{E_i, \omega_j\upd{k}(X) E_k} &=  (g_{jk}\omg{i}{k} + g_{ik}\omg{j}{k})(X) \\
+    \end{align*}
+    So we have $dg_{ij} = g_{jk}\omg{i}{k} + g_{ik}\omg{j}{k}$.
+
+    Conversely, if $dg_{ij} = g_{jk}\omg{i}{k} + g_{ik}\omg{j}{k}$, then by previous calculations, 
+    $X\mt{E_i, E_j} = \mt{\nba_X E_i, E_j} + \mt{E_i, \nba_X E_j}$ for any $X \in \mathfrak{X}(M)$. 
+    For any $Y, Z \in \mathfrak{X}(M)$, we can write $Y = \sum_i Y^i E_i$ and $Z = \sum_j Z^j E_j$, then
+    \begin{align*}
+        X\mt{Y,Z} = X\mt{Y^i E_i,Z^j E_j} &= \sum_{i,j} X(Y^i Z^j g_{ij}) \\
+        &= \sum_{i,j} X(Y^i) Z^j g_{ij} + Y^i X(Z^j) g_{ij} + Y^i Z^j X(g_{ij}) \\
+        \text{(By previous calculations)} &= \sum_{i,j} X(Y^i) Z^j g_{ij} + Y^i X(Z^j) g_{ij} + Y^iZ^j(\mt{\nba_X E_i, E_j} + \mt{E_i, \nba_X E_j}) \\
+    \end{align*}
+    On the other hand,
+    \[ \mt{\nba_X (Y^i E_i),Z^j E_j} = \sum_{ij}\mt{X(Y^i)E_i + Y^i \nba_X E_i, Z^j E_j} = \sum_{ij} X(Y^i) Z^j g_{ij} + Y^iZ^j\mt{\nba_X E_i, E_j}.\]
+    By symmetry, we conclude that 
+    \[\sum_{i,j} X(Y^i) Z^j g_{ij} + Y^i X(Z^j) g_{ij} + Y^iZ^j(\mt{\nba_X E_i, E_j} + \mt{E_i, \nba_X E_j}) = \mt{\nba_X Y,Z} + \mt{Y, \nba_X Z}.\]
+    Thus $\nba$ is $g$-compatible.
+
+    Now suppose $\{E_i\}$ is a local orthonormal frame. Then $g_{ij} = \delta_{ij}$. In this case, for $i\neq j$,
+    \[0 = dg_{ij} = \omg{i}{j} + \omg{j}{i}.\]
+    Hence $\{\omg{i}{j}\}$ is skew-symmetric.
+\end{proof}
+\newpage
+\newcommand{\p}{\partial}
+\newcommand{\tx}{\widetilde{X}}
+\newcommand{\ty}{\widetilde{Y}}
+\newcommand{\tm}{\widetilde{M}}
+\newcommand{\tz}{\widetilde{Z}}
+\newcommand{\tba}{\widetilde{\nabla}}
+\newcommand{\wt}{\widetilde}
+
+\noindent\textbf{5-6}
+\begin{proof}
+    \textbf{(1.1)} By definition of horizontal lift, we have $d\pi(\tx) = X\circ \pi$ and $d\pi(\ty) = Y\circ \pi$. Also, for any point $p$,
+    $d\pi: T_p^H M \to T_{\pi(p)} M$ is an isometry, so $\mt{\tx, \ty} = \mt{X, Y}\circ \pi$.
+    
+    \textbf{(1.2)} Compute for any $f$, 
+    $$d\pi([\tx,\ty])(f) = \tx(\ty(f\circ \pi)) - \ty(\tx(f\circ \pi)) = \tx(Yf\circ \pi)-\ty(Xf\circ\pi) = [X,Y](f)$$
+    Hence, by the uniqueness of horizontal lifting, $[\tx,\ty]^H = \wt{[X,Y]}$
+
+    \textbf{(1.3)} By similar calculation,
+    \[ d\pi([\tx,W]) = \tx(d\pi W \circ \pi) - W(X\circ \pi) = 0 \quad\text{Since }W\in\ker(d\pi)\]
+
+    \textbf{(2)} First, compute the horizontal component of $\nba_{\tx} \ty$. Suppose $Z\in\mathfrak{X}(M)$ and $\tz$ is its
+    horizontal lifting. We have
+
+    \newcommand{\sbf}[4]{
+\langle #1_{#2} {#3}, {#4} \rangle = \frac{1}{2}\left({#2}\langle {#3}, {#4} \rangle + {#3}\langle {#4}, {#2} \rangle - {#4}\langle {#2}, {#3} \rangle
+ + \langle [{#2}, {#3}], {#4} \rangle - \langle [{#3}, {#4}], {#2} \rangle + \langle [{#4}, {#2}], {#3} \rangle\right)
+    }
+\[\sbf{\tba}{\tx}{\ty}{\tz}\]
+By previous results, $\tx\mt{\ty,\tz} = \tx(\mt{Y,Z}\circ \pi) = (X\mt{Y,Z})\circ \pi$, and
+$\mt{[\tx,\ty],\tz} = \mt{[\tx,\ty]^H,\tz} + \mt{[\tx,\ty]^V,\tz} = \mt{\wt{[X,Y]},\tz} + 0 = \mt{[X,Y],Z}\circ\pi$. The same calculation
+can be applied to terms with the same structure. Therefore,
+\[\mt{\tba_{\tx}\ty,\tz} = \left(\mt{\nba_X Y,Z}\right)\circ \pi.\]
+Hence, $(\tba_{\tx}\ty)^H = \wt{\nba_X Y}$.
+
+Next, we look at the vertical components. Let $W\in\ker(d\pi)$,
+\[\sbf{\tba}{\tx}{\ty}{W}.\]
+Using the fact that the horizontal space and vertical space are orthogonal, we reduce the equation to
+\begin{align*}
+    \mt{\tba_{\tx}\ty,W} &= \frac{1}{2}\left(-W\mt{\tx,\ty} + \mt{[\tx,\ty],W}\right)\\
+    &=\frac{1}{2}\left(-W(\mt{X,Y}\circ \pi) + \mt{[\tx,\ty]^H,W} +\mt{[\tx,\ty]^V,W}  \right) = \frac{1}{2}\mt{[\tx,\ty]^V,W}
+\end{align*}
+Hence $(\tba_{\tx}\ty)^V = \frac{1}{2}[\tx,\ty]^V$.
+
+To conclude,
+\[\tba_{\tx}\ty = \wt{\nba_X Y}+ \frac{1}{2}[\tx,\ty]^V.\]
+\end{proof}
+
+\end{document}

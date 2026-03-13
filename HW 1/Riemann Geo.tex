@@ -1,0 +1,112 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+
+\title{Riemannian Geometry HW 1}
+\author{Cheng Chen}
+
+% Theorem/definition environments: unified styles and numbering by section
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{prop}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\dd}{\partial}
+\newcommand{\cR}{\mathbb{R}}
+\newcommand{\cC}{\mathbb{C}}
+\newcommand{\cS}{\mathbb{S}}
+\newcommand{\cP}{\mathbb{P}}
+\newcommand{\aM}{\cR^+ \times_\rho \cS^{n-1}}
+\newcommand{\tg}{\tilde{g}}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\noindent\textbf{Problem 2-4}
+\begin{proof}
+    First, we show that $\Phi$ is a diffeomorphism. By definition of $\Phi$, it is naturally an injective smooth map $\aM \to \cR^n\backslash \{0\}$.
+    Besides, since every vector $x\in \cR^n \backslash \{0\}$ has a unique polar representation $x = \rho\omega$ with $\rho \in \cR^+$ and $\omega \in \cS^{n-1}$
+    we can write out the inverse map
+    \[ \Phi^{-1}(x) = (|x|, \frac{x}{|x|}). \]
+    Hence $\Phi$ is a bijection and its inverse is smooth, since both $|x|$ and $\frac{x}{|x|}$ are smooth functions of $x$, which means $\Phi$ is a diffeomorphism.
+
+    Next, we show the equality on the pull metric. Let $g$ be the matric on $\aM$, and $\langle \cdot, \cdot \rangle$ be the standard inner product on $\cR^n$.
+    Let $p = (\rho,\omega)$ be any point in $\aM$. For any tangent vector $X = x\dd_\rho + u \in T_p\aM$, where $x\in \cR$ and $u \in T_\omega \cS^{n-1}$ and,
+    similarly, $Y = y\dd_\rho + v \in T_p\aM$, we have by definition
+    \[ g(X,Y) = xy + \rho^2 \langle u, v \rangle. \]
+    Here, we use the fact that the metric on $\cS^{n-1}$ is the one induced by the standard inner product on $\cR^n$.
+    To compute the pullback metric, we first compute the pushforward of $X$ and $Y$ by $\Phi$. Let 
+    $\alpha,\,\beta : (-\epsilon, \epsilon) \to \aM$ be two curves such that $\alpha(0) = \beta(0) = p$, $\alpha'(0) = X$ and $\beta'(0) = Y$. 
+    For simplicity, we write $\alpha(t) = (r(t),s(t))$ and $\beta(t) = (\gamma(t),\sigma(t))$. Then
+    \begin{align*}
+        d\Phi(X) = \frac{d}{dt}\Big|_{t=0} \Phi(\alpha(t)) = \frac{d}{dt}\Big|_{t=0} r(t)s(t) = x\omega + \rho u, \\
+        d\Phi(Y) = \frac{d}{dt}\Big|_{t=0} \Phi(\beta(t)) = \frac{d}{dt}\Big|_{t=0} \gamma(t)\sigma(t) = y\omega + \rho v.
+    \end{align*}
+    Hence,
+    \begin{align*}
+        \Phi^* \langle X, Y \rangle = \langle d\Phi(X), d\Phi(Y) \rangle &= \langle x\omega + \rho u, y\omega + \rho v \rangle \\
+        &= xy\langle \omega,\omega \rangle + \rho^2 \langle u, v \rangle + x\rho\langle\omega,v \rangle + y\rho\langle\omega,u \rangle \\
+        &= xy + \rho^2 \langle u, v \rangle = g(X,Y).
+    \end{align*}
+    Here, we use the fact that the tangent space $T_\omega \cS^{n-1}$ is perpendicular to the radius vector $\omega$.
+\end{proof}
+
+\newcommand{\cpn}{\cC\cP^n}
+\newcommand{\csn}{\cS^{2n+1}}
+\newcommand{\bphi}{\bar{\varphi}}
+\noindent\textbf{Problem 3-19}
+\begin{proof}
+    Let $g$ be the Fubini-Study metric on $\cC\cP^n$ and $\tg$ be the metric on $\cS^{2n+1}$.
+
+    \textbf{Homogeneity}. If we identify $\cS^{2n+1}$ as the complex unit ball, we see that $U(n+1)$ acts transitively on
+    $\cS^{2n+1}$ while $U(n+1)$ is also a subgroup of $O(2n+2) = Isom(\cS^{2n+1}, \tg)$. Also, for any $\varphi \in U(n+1)$, 
+    it commutes with the $\cS^1$ action, i.e. $\varphi(\lambda z) = \lambda \varphi(z)$ for any $\lambda \in \cS^1$ and $z\in \cS^{2n+1}$.
+    Therefore, for any $p\in \csn$, $d\varphi(T_p^V) = T_{\varphi(p)}^V$. Now given any two points $x,y\in \cpn$, we identify them
+    as $x = [p]$ and $y = [q]$ for some $p,q\in \csn$. Then there exists $\varphi \in U(n+1)$ such that $\varphi(p) = q$.
+    We define $\bphi: \cpn \to \cpn$ by $\bphi([p]) = [\varphi(p)]$. Locally, we can write
+    \[ \bphi = \pi \circ \varphi \circ s, \]
+    where $s$ is a local section of $\pi$. $\bphi$ is well-defined since if $s'$ is another local section of $\pi$, then $s'(p) = \lambda s(p)$ for some $\lambda \in \cS^1$, and so $\varphi(s'(p)) = \varphi(\lambda s(p)) = \lambda \varphi(s(p))$, which means $[\varphi(s'(p))] = [\varphi(s(p))]$.
+    $\bphi$ is a diffeomorphism since $\varphi$ is a diffeomorphism and we can do the same argument for $\varphi^{-1}$. Also, for
+    $X,Y \in T_p\cpn$, we have
+    \begin{align*}
+        \bphi^* g(X,Y) &= g(d\bphi(X), d\bphi(Y)) = g(d\pi(d\varphi(s_*X)), d\pi(d\varphi(s_*Y))) \\
+        &= \tg(d\varphi(s_*X), d\varphi(s_*Y)) = \tg(s_*X, s_*Y) = g(X,Y).
+    \end{align*}
+    The last equality is valid since $\pi\circ s = id_{\csn}$ and by definition, $d\pi$ is an isometry $T_z^H\csn \to T_p\cpn$ hence $ds:T_p\cpn \to T_z^H\csn$. Thus $\bphi$ is an isometry and $\cpn$ is homogeneous.
+
+    \textbf{Isotropy}. Since we have established homogeneity, we only need to look at the point \\$p = [1:0:...:0] \in \cpn$.
+    Let $X = [0:x^2:...:x^{n+1}] \in T_p\cpn$ and $Y = [0:y^2,...,y^{n+1}] \in T_p\cpn$, and let $s$ be a local section of $\pi$ such that $s(p) = (1,0,...,0)$ in the complex unit ball. 
+    Consider $S = \left[\begin{matrix}
+        1 & 0 \\ 0 & A
+    \end{matrix}\right] \in U(n+1)$ where $A([x^2,...,x^{n+1}])^T = ([y^2,...,y^{n+1}])^T$, here $[v]$ denotes the unit vector of $v$. This is possible since we know the action of
+    $U(n)$ on the n-dimension complex unit ball is transitive. Then the induced isometry
+    $\bar{S} = \pi \circ S \circ s$ satisfies $\bar{S}(p) = p$ and \
+    \begin{align*}
+        d\bar{S} (X) = d\pi(dS(s_*X)) = d\pi(0, A[x^2,...,x^{n+1}]^T) = Y.
+    \end{align*}
+    
+    Hence $\cpn$ is isotropic.
+
+    \textbf{Symmetry} Still, we look at the point $p = [1:0:...:0] \in \cpn$ and consider $S = \left[\begin{matrix}
+        1 & 0 \\ 0 & -I_n
+    \end{matrix}\right] \in U(n+1)$. The induced isometry $\bar{S} = \pi \circ S \circ s$ satisfies $\bar{S}(p) = p$ and
+    \begin{align*}
+        d\bar{S}(X) = d\pi(dS(s_*X)) = d\pi(0, -x^2,...,-x^{n+1}) = -X.
+    \end{align*}
+    Hence $\cpn$ is symmetric.
+\end{proof}
+\end{document}
