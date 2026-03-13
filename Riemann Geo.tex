@@ -35,6 +35,12 @@
 \newtheorem{remark}[theorem]{Remark}
 \date{}
 \newcommand{\p}{\partial}
+
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\Id}{Id}
+
+
 \begin{document}
 
 \maketitle
@@ -1984,7 +1990,443 @@ On $M$, we have the decomposition (Gauss Formula):
 \[
 \tilde{\nabla}_{\tilde{X}} \tilde{Y} = \nabla_X Y + \II(X, Y)
 \]
+}
 
+\newpage
+{
+    \newtheorem{cor}{Corollary}
+\section{Lecture 15}
+
+\subsection{Proof of Symmetries of Curvature Tensors}
+
+Let $\{E_i\}$ be a local frame, and $\{\varepsilon^i\}$ be the dual coframe.
+\begin{align*}
+d\varepsilon^i &= \varepsilon^j \wedge \omega_j^i + \tau^i \quad \text{ (Definition of torsion } \tau \text{)} \\
+g_{jk}\omega_i^k + g_{ik}\omega_j^k &= dg_{ij} \quad \text{ (Metric compatibility)} \\
+\Omega_i^j &= d\omega_i^j - \omega_i^k \wedge \omega_k^j \quad \text{ (Definition of curvature } \Omega \text{)}
+\end{align*}
+Suppose $\{E_i\}$ is orthonormal. Torsion vanishes, and $g_{ij} = \delta_{ij}$. Then $d\varepsilon^j = \varepsilon^i \wedge \omega_i^j$, and $\omega_j^i + \omega_i^j = 0$.
+
+\begin{prop}
+$\Omega_i^j = -\Omega_j^i$
+\end{prop}
+\begin{proof}
+\begin{align*}
+\Omega_i^j &= d\omega_i^j - \omega_i^k \wedge \omega_k^j \\
+&= -d\omega_j^i + \omega_k^j \wedge \omega_i^k \\
+&= -d\omega_j^i + \omega_j^k \wedge \omega_k^i \\
+&= -\Omega_j^i
+\end{align*}
+\end{proof}
+
+\begin{cor}
+$R_{klij} = -R_{klji}$
+\end{cor}
+
+\noindent \textbf{Pf of $1^{\text{st}}$ Bianchi:}
+\begin{proof}
+Start with $d\varepsilon^j = \varepsilon^i \wedge \omega_i^j$. Apply the exterior derivative $d$:
+\begin{align*}
+0 &= d\varepsilon^i \wedge \omega_i^j - \varepsilon^i \wedge d\omega_i^j \\
+&= (\varepsilon^k \wedge \omega_k^i) \wedge \omega_i^j - \varepsilon^k \wedge d\omega_k^j \\
+&= \varepsilon^k \wedge \omega_k^i \wedge \omega_i^j - \varepsilon^k \wedge d\omega_k^j \\
+&= -\varepsilon^k \wedge (d\omega_k^j - \omega_k^i \wedge \omega_i^j) \\
+&= -\varepsilon^k \wedge \Omega_k^j \\
+&= -\varepsilon^k \wedge \left( \frac{1}{2} R_{abk}{}^j \varepsilon^a \wedge \varepsilon^b \right)
+\end{align*}
+$\Rightarrow 0 = -\frac{1}{2} R_{abkj} \varepsilon^k \wedge \varepsilon^a \wedge \varepsilon^b \quad (1^{\text{st}} \text{ Bianchi})$.
+\end{proof}
+
+\noindent \textbf{Pf of $2^{\text{nd}}$ Bianchi:}
+\begin{proof}
+From $\Omega_i^j = d\omega_i^j - \omega_i^k \wedge \omega_k^j$, we take the exterior derivative:
+\begin{align*}
+d\Omega_i^j &= -d\omega_i^k \wedge \omega_k^j + \omega_i^k \wedge d\omega_k^j \\
+&= -(\Omega_i^k + \omega_i^l \wedge \omega_l^k) \wedge \omega_k^j + \omega_i^k \wedge (\Omega_k^j + \omega_k^l \wedge \omega_l^j) \\
+&= -\Omega_i^k \wedge \omega_k^j + \omega_i^k \wedge \Omega_k^j
+\end{align*}
+$\Rightarrow d\Omega_i^j + \Omega_i^k \wedge \omega_k^j - \omega_i^k \wedge \Omega_k^j = 0 \quad (2^{\text{nd}} \text{ Bianchi})$.
+\end{proof}
+
+Now, evaluate $d\Omega_i^j$:
+\begin{align*}
+d\Omega_i^j &= \varepsilon^m \wedge \nabla_{E_m} \Omega_i^j + \dots \\
+&= \frac{1}{2} \varepsilon^m \wedge \nabla_{E_m} (R_{klij}) \varepsilon^k \wedge \varepsilon^l + \dots \\
+&= \frac{1}{2} \nabla_{E_m} R_{klij} \varepsilon^m \wedge \varepsilon^k \wedge \varepsilon^l + \dots
+\end{align*}
+Can choose an ortho frame $\{E_i\}$ near $p$ so that $\omega_i^j(p) = 0$. To do this, choose an orthobasis $\{E_i(p)\}$ for $T_pM$, and parallel transport along radial geodesics from $p$. At $p$, $E_m = \nabla_m$.
+
+Get $0 = \nabla_m R_{klij} \varepsilon^m \wedge \varepsilon^k \wedge \varepsilon^l$. 
+This equation is independent of the choice of the orthonormal frame.
+
+\subsection{Cartan's Moving Frame}
+\textbf{To compute curvature:}
+\begin{enumerate}
+    \item Choose orthonormal frame $\{E_i\}$.
+    \item Using $\omega_i^j + \omega_j^i = 0$ and $d\varepsilon^i = \varepsilon^j \wedge \omega_j^i$ to determine $\omega_i^j$.
+    \item Compute $\Omega_i^j$.
+\end{enumerate}
+
+\begin{example}
+Upper half plane. $g = \frac{dx^2+dy^2}{y^2}$. Let $\varepsilon^1 = \frac{dx}{y}$, $\varepsilon^2 = \frac{dy}{y}$.
+\begin{align*}
+d\varepsilon^1 &= -\frac{1}{y^2} dy \wedge dx, \quad d\varepsilon^2 = 0. \\
+d\varepsilon^1 &= \varepsilon^2 \wedge \omega_2^1. \quad \text{Since } \varepsilon^2 \wedge \varepsilon^1 = \frac{dy}{y} \wedge \frac{dx}{y} = -\frac{1}{y^2} dy \wedge dx = d\varepsilon^1 \\
+&\Rightarrow \omega_2^1 = \varepsilon^1 + (?) \varepsilon^2.
+\end{align*}
+However $d\varepsilon^2 = \varepsilon^1 \wedge \omega_1^2 = \varepsilon^1 \wedge (\varepsilon^1 + (?) \varepsilon^2) = 0 \Rightarrow (?) = 0$. So $\omega_1^2 = \varepsilon^1$.
+\begin{align*}
+\Omega_1^2 &= d\omega_1^2 - \omega_1^1 \wedge \omega_1^2 - \omega_1^2 \wedge \omega_2^2 \\
+&= d\omega_1^2 = d\varepsilon^1 = -\frac{1}{y^2} dy \wedge dx = \varepsilon^1 \wedge \varepsilon^2 \\
+&= \frac{1}{2} R_{kl12} \varepsilon^k \wedge \varepsilon^l = R_{1212} \varepsilon^1 \wedge \varepsilon^2
+\end{align*}
+$\Rightarrow R_{1212} = 1$ and $K = R_{2112} = -1$.
+\end{example}
+
+\subsection{Submanifolds and the Second Fundamental Form}
+
+Let $M \subset \tilde{M}$ be a submanifold. On $\tilde{M}$, we have $\tilde{\nabla}_{\tilde{X}} \tilde{Y} = \nabla_X Y + \mathrm{I\!I}(X,Y)$, where:
+\begin{itemize}
+    \item $X, Y$: vector fields on $M$.
+    \item $\tilde{X}, \tilde{Y}$: extensions on a neighborhood of $M$.
+    \item $\nabla_X Y = \pi^\top \tilde{\nabla}_{\tilde{X}} \tilde{Y}$.
+    \item $\mathrm{I\!I}(X,Y) \in N_p M$ (Normal bundle).
+    \item $\mathrm{I\!I}(X,Y) = \pi^\perp \tilde{\nabla}_{\tilde{X}} \tilde{Y}$.
+    \item $\mathrm{I\!I}_p: T_pM \times T_pM \to N_pM$, with $\mathrm{I\!I}(X,Y) = \mathrm{I\!I}(Y,X)$.
+\end{itemize}
+We call $\nabla_X Y$ the intrinsic part and $\mathrm{I\!I}(X,Y)$ the extrinsic part.
+
+Say $\gamma: I \to M$ is a curve, and $V$ is a vector field along $\gamma$ tangent to $M$.
+\begin{prop}
+$\tilde{D}_t V = D_t V + \mathrm{I\!I}(\dot{\gamma}, V)$
+\end{prop}
+\begin{proof}
+Around $t_0 \in I$, choose a basis $\{E_i\}$ of tangential vectors along $\gamma$ that are extendable. Write $V(t) = \sum V^i(t) E_i(t)$.
+\begin{align*}
+\tilde{D}_t V &= \sum \left( \frac{dV^i}{dt} E_i + V^i \tilde{\nabla}_{\dot{\gamma}} E_i \right) \\
+&= \sum \left( \frac{dV^i}{dt} E_i + V^i (\nabla_{\dot{\gamma}} E_i + \mathrm{I\!I}(\dot{\gamma}, E_i)) \right) \\
+&= D_t V + \mathrm{I\!I}\left(\dot{\gamma}, \sum V^i E_i\right) \\
+&= D_t V + \mathrm{I\!I}(\dot{\gamma}, V)
+\end{align*}
+\end{proof}
+
+\begin{cor}
+$\tilde{D}_t \dot{\gamma} = D_t \dot{\gamma} + \mathrm{I\!I}(\dot{\gamma}, \dot{\gamma})$.
+\end{cor}
+
+\begin{cor}
+\begin{enumerate}
+    \item $\gamma$ is a geodesic in $M \Leftrightarrow$ The acceleration $\tilde{D}_t \dot{\gamma}$ is normal to $M$.
+    \item $\gamma$ a geodesic in $M \Rightarrow \tilde{D}_t \dot{\gamma} = \mathrm{I\!I}(\dot{\gamma}, \dot{\gamma})$.
+    \item If $\gamma$ is a curve in $M$ and it's also a geodesic in $\tilde{M}$, then it's a geodesic in $M$ and $\mathrm{I\!I}(\dot{\gamma}, \dot{\gamma}) = 0$.
+\end{enumerate}
+\end{cor}
+
+\subsection*{Weingarten Equation}
+Say $X, Y$ are tangent to $M$, and $\tilde{X}, \tilde{Y}$ are extensions to $\tilde{M}$. Suppose $N$ is a normal vector field, i.e., a section of $NM$. Extend $N$ to $\tilde{N}$ as a vector field.
+Then $\langle \tilde{\nabla}_{\tilde{X}} N, Y \rangle = -\langle \mathrm{I\!I}(X,Y), N \rangle$.
+
+\begin{proof}
+On $M$, $\langle N, Y \rangle = 0$, so $X\langle N, Y \rangle = 0$. i.e., when restricted to $M$:
+\begin{align*}
+0 = \tilde{X}\langle \tilde{N}, \tilde{Y} \rangle &= \langle \tilde{\nabla}_{\tilde{X}} \tilde{N}, \tilde{Y} \rangle + \langle \tilde{N}, \tilde{\nabla}_{\tilde{X}} \tilde{Y} \rangle \\
+&= \langle \tilde{\nabla}_{\tilde{X}} \tilde{N}, Y \rangle + \langle N, \tilde{\nabla}_{\tilde{X}} \tilde{Y} \rangle
+\end{align*}
+So, $\langle \tilde{\nabla}_{\tilde{X}} \tilde{N}, Y \rangle = -\langle N, \tilde{\nabla}_{\tilde{X}} \tilde{Y} \rangle = -\langle N, \pi^\perp \tilde{\nabla}_{\tilde{X}} \tilde{Y} \rangle = -\langle N, \mathrm{I\!I}(X,Y) \rangle$.
+\end{proof}
+
+\subsection*{Gauss Equation}
+For tangential vector fields $X, Y, Z, W$:
+\[ \tilde{Rm}(X,Y,Z,W) = Rm(X,Y,Z,W) - \langle \mathrm{I\!I}(X,W), \mathrm{I\!I}(Y,Z) \rangle + \langle \mathrm{I\!I}(X,Z), \mathrm{I\!I}(Y,W) \rangle \]
+
+\begin{proof}
+\begin{align*}
+\tilde{Rm}(X,Y,Z,W) &= \langle \tilde{\nabla}_{\tilde{X}} \tilde{\nabla}_{\tilde{Y}} \tilde{Z} - \tilde{\nabla}_{\tilde{Y}} \tilde{\nabla}_{\tilde{X}} \tilde{Z} - \tilde{\nabla}_{[\tilde{X}, \tilde{Y}]} \tilde{Z}, W \rangle \\
+&= \langle \tilde{\nabla}_{\tilde{X}} (\nabla_Y Z + \mathrm{I\!I}(Y,Z)) - \dots - \nabla_{[X,Y]} Z - \mathrm{I\!I}([X,Y], Z), W \rangle \\
+&= \langle \nabla_X \nabla_Y Z - \nabla_Y \nabla_X Z - \nabla_{[X,Y]} Z, W \rangle \\
+&\quad + \langle \tilde{\nabla}_{\tilde{X}} \mathrm{I\!I}(Y,Z), W \rangle - \langle \tilde{\nabla}_{\tilde{Y}} \mathrm{I\!I}(X,Z), W \rangle - \langle \mathrm{I\!I}([X,Y], Z), W \rangle \\
+&= Rm(X,Y,Z,W) + \langle \tilde{\nabla}_{\tilde{X}} \mathrm{I\!I}(Y,Z), W \rangle - \langle \tilde{\nabla}_{\tilde{Y}} \mathrm{I\!I}(X,Z), W \rangle - 0
+\end{align*}
+By the Weingarten equation, $\langle \tilde{\nabla}_{\tilde{X}} \mathrm{I\!I}(Y,Z), W \rangle = -\langle \mathrm{I\!I}(Y,Z), \mathrm{I\!I}(X,W) \rangle$.
+Substituting this yields:
+\[ \tilde{Rm}(X,Y,Z,W) = Rm(X,Y,Z,W) - \langle \mathrm{I\!I}(X,W), \mathrm{I\!I}(Y,Z) \rangle + \langle \mathrm{I\!I}(X,Z), \mathrm{I\!I}(Y,W) \rangle \]
+\end{proof}
+
+\subsection{Hypersurfaces in Euclidean Space}
+
+From now on, look at $M^n \subset \mathbb{R}^{n+1}$ where $\dim M = n$.
+\begin{itemize}
+    \item $M$ is orientable $\Leftrightarrow$ unit section $N$ of $NM$ is defined up to $\pm 1$.
+    \item If $M$ is not orientable, $\exists$ unit normal field $N$ locally.
+\end{itemize}
+
+\begin{definition}
+$h(X,Y) = \langle \mathrm{I\!I}(X,Y), N \rangle$. The $2^{\text{nd}}$ fundamental form. i.e., $\mathrm{I\!I}(X,Y) = h(X,Y)N$.
+\end{definition}
+
+The shape operator $S$ is the section of $\mathrm{End}(TM)$ s.t. $\langle SX, Y \rangle = h(X,Y)$.
+
+\begin{lemma}
+$S$ on $T_pM$ is self-adjoint. $S_j^i = g^{ik} h_{kj}$.
+\end{lemma}
+
+We have $\tilde{\nabla}_{\tilde{X}} \tilde{Y} = \nabla_X Y + h(X,Y)N$.
+For the Weingarten equation: $\tilde{\nabla}_{\tilde{X}} N = -SX$.
+\begin{proof}
+$\langle \tilde{\nabla}_{\tilde{X}} N, Y \rangle = -\langle N, \tilde{\nabla}_{\tilde{X}} Y \rangle = -h(X,Y) = -\langle SX, Y \rangle$. \\
+$\langle \tilde{\nabla}_{\tilde{X}} N, N \rangle = \frac{1}{2} X\langle N,N \rangle = \frac{1}{2} X(1) = 0$. \\
+So $\tilde{\nabla}_{\tilde{X}} N = -SX$.
+\end{proof}
+
+Since $\tilde{Rm} = 0$ for $\mathbb{R}^{n+1}$, the Gauss equation implies:
+\[ Rm(X,Y,Z,W) = h(X,W)h(Y,Z) - h(X,Z)h(Y,W) \]
+
+If $\gamma$ is a unit-speed geodesic in $M$, then:
+\[ \ddot{\gamma} = D_t \dot{\gamma} + h(\dot{\gamma}, \dot{\gamma})N \]
+Since it is a geodesic, $D_t \dot{\gamma} = 0$. Thus $\ddot{\gamma} = h(\dot{\gamma}, \dot{\gamma})N$. 
+So the geodesic curvature of $\gamma$ is $|\ddot{\gamma}| = |h(\dot{\gamma}, \dot{\gamma})|$.
+
+$\exists$ ONB $\{E_i\}$ of $T_pM$ so $S E_i = \kappa_i E_i$.
+\begin{itemize}
+    \item $\kappa_i$: principal curvature.
+    \item $E_i$: principal direction.
+\end{itemize}
+In this case, $h(X,Y) = \sum \kappa_i X_i Y_i$.
+
+\begin{definition}
+The \textbf{Gaussian curvature} of $M$ is $K = \kappa_1 \dots \kappa_n$. \\
+The \textbf{mean curvature} is $H = \frac{1}{n}(\kappa_1 + \dots + \kappa_n)$.
+\end{definition}
+
+}
+
+\newpage
+{
+\section{Lecture 16}
+
+\newcommand{\II}{\mathrm{I\!I}} % Second fundamental form
+\newcommand{\R}{\mathbb{R}}
+
+
+\subsection{Shape Operator and Curvature of Hypersurfaces}
+
+Suppose $M \subset \R^{n+1}$ is a hypersurface with $\dim M = n$. Let $N$ be a local unit normal vector field on $M$, and $X, Y$ be tangent vector fields to $M$.
+Recall that on the ambient manifold $\tilde{M} = \R^{n+1}$, we have the Gauss formula:
+\[ \tilde{\nabla}_X Y = \nabla_X Y + h(X,Y)N \]
+
+\begin{definition}
+The \textbf{shape operator} $S$ is a section of $\End(TM)$ defined such that:
+\[ \langle S X, Y \rangle = h(X, Y) \]
+In local coordinates, $S^i_j = g^{ik} h_{kj}$.
+\end{definition}
+
+\begin{lemma}
+The shape operator $S_p: T_pM \to T_pM$ is self-adjoint.
+\end{lemma}
+
+\noindent \textbf{Weingarten Equation:}
+\[ \tilde{\nabla}_X N = -S(X) \]
+\begin{proof}
+For any $Y \in T_pM$, since $\langle N, Y \rangle = 0$, we differentiate it to get:
+\[ \langle \tilde{\nabla}_X N, Y \rangle = -\langle N, \tilde{\nabla}_X Y \rangle = -h(X,Y) = -\langle SX, Y \rangle \]
+Also, since $\langle N, N \rangle = 1$, we have:
+\[ \langle \tilde{\nabla}_X N, N \rangle = \frac{1}{2} X \langle N, N \rangle = \frac{1}{2} X(1) = 0 \]
+Since $\tilde{\nabla}_X N$ has no normal component and its tangential component matches $-S(X)$, we conclude $\tilde{\nabla}_X N = -S(X)$.
+\end{proof}
+
+\noindent Since the ambient space $\R^{n+1}$ is flat ($\tilde{Rm} = 0$), the Gauss equation yields:
+\[ Rm(X,Y,Z,W) = h(X,W)h(Y,Z) - h(X,Z)h(Y,W) \]
+
+At $p \in M$, since $S$ is self-adjoint, there exists an orthonormal basis (ONB) $\{E_i\}$ of $T_pM$ such that $S E_i = k_i E_i$.
+\begin{itemize}
+    \item $k_i$: \textbf{principal curvature}
+    \item $E_i$: \textbf{principal direction}
+\end{itemize}
+In this basis, $h(X,Y) = \sum k_i X_i Y_i$.
+
+\begin{definition}
+The \textbf{Gaussian curvature} of $M$ is $K(p) = k_1 \dots k_n$. \\
+The \textbf{mean curvature} of $M$ is $H(p) = \frac{1}{n}(k_1 + \dots + k_n)$.
+\end{definition}
+
+\begin{remark}
+Note that if we change the choice of normal field $N \to -N$, then $h \to -h$, and $k_i \to -k_i$. Consequently, $K \to (-1)^n K$ and $H \to -H$.
+\end{remark}
+
+Let $\gamma$ be a curve in $M$. Its acceleration in $\R^{n+1}$ is:
+\[ \ddot{\gamma} = D_t \dot{\gamma} + h(\dot{\gamma}, \dot{\gamma})N \]
+If $\gamma$ is a unit-speed geodesic in $M$, then $D_t \dot{\gamma} = 0$. So $\ddot{\gamma} = h(\dot{\gamma}, \dot{\gamma})N$. Thus, the geodesic curvature of $\gamma$ is $|\ddot{\gamma}| = |h(\dot{\gamma}, \dot{\gamma})|$.
+
+\subsection*{Examples}
+\begin{example}
+Rigid motion to $M$ so that $0 \in M$ and $T_0 M \cong \R^n \subset \R^{n+1}$. Locally, $M = \operatorname{graph}(f)$ where $f: \R^n \to \R$, $f(0) = 0$, and $\nabla f(0) = 0$.
+Consider a curve $\gamma(t) = (v^1 t, \dots, v^n t, f(v t))$.
+\begin{align*}
+    \dot{\gamma}(t) &= \left(v^1, \dots, v^n, \sum v^i (\partial_i f)(v t)\right) \\
+    \ddot{\gamma}(t) &= \left(0, \dots, 0, \sum v^i v^j (\partial_i \partial_j f)(v t)\right)
+\end{align*}
+At $t=0$: $\dot{\gamma}(0) = (\vec{v}, 0)$ and $\ddot{\gamma}(0) = (0, \dots, 0, \sum v^i v^j (\partial_i \partial_j f)(0))$.
+Let the normal vector be $N = (0, \dots, 0, 1)$ at $p=0$. 
+Then $\langle \ddot{\gamma}(0), N \rangle = \sum v^i v^j (\partial_i \partial_j f)(0) = v^T (\nabla^2 f)(0) v$.
+By the acceleration formula, $\langle \ddot{\gamma}, N \rangle = h(\dot{\gamma}, \dot{\gamma})$. Thus, $h(\vec{v}, \vec{v}) = v^T (\nabla^2 f)(0) v$. So the principal curvatures $\{k_i\}$ are exactly the eigenvalues of the Hessian $(\nabla^2 f)(0)$.
+\end{example}
+
+\begin{example}
+Let $M \subset \R^3$, $\dim M = 2$. Near the origin, $f = \frac{1}{2} k_1 x^2 + \frac{1}{2} k_2 y^2$.
+If $k_1, k_2 > 0$: parabolic surface. If $k_1 k_2 < 0$: saddle surface.
+\end{example}
+
+\begin{example}
+$S^2 \subset \R^3$. A geodesic is $\gamma(t) = (R \cos(\frac{t}{R}), R \sin(\frac{t}{R}), 0)$.
+Let $N$ be the inward normal. 
+$\dot{\gamma} = (-\sin(\frac{t}{R}), \cos(\frac{t}{R}), 0)$, and $\ddot{\gamma} = -\frac{1}{R^2} \gamma = \frac{1}{R} N$.
+The shape operator is $S_p = \frac{1}{R} \Id_{T_p M}$. Here $k_1 = k_2 = \frac{1}{R}$, $K = \frac{1}{R^2}$, and $H = \frac{1}{R}$.
+\end{example}
+
+\subsection{Theorema Egregium and Sectional Curvature}
+
+\begin{theorem}[Gauss's Theorema Egregium]
+If $M^2 \subset \R^3$, then the Gaussian curvature $K_p$ satisfies
+\[ K_p = \frac{Rm(X,Y,Y,X)}{|X|^2|Y|^2 - \langle X,Y \rangle^2} \]
+for any basis $\{X, Y\}$ of $T_pM$.
+\end{theorem}
+\begin{proof}
+Recall the Gauss equation: $Rm(X,Y,Z,W) = h(X,W)h(Y,Z) - h(X,Z)h(Y,W)$.
+Choose $\{e_1, e_2\}$ as an ONB of $T_pM$ consisting of principal directions. Then:
+\[ Rm(e_1, e_2, e_2, e_1) = h(e_1, e_1)h(e_2, e_2) - h(e_1, e_2)h(e_2, e_1) = k_1 k_2 - 0 = \det(S_p) = K \]
+Hence $K_p = \frac{Rm(e_1, e_2, e_2, e_1)}{|e_1|^2|e_2|^2 - \langle e_1, e_2 \rangle^2}$. It can be checked by multilinearity that the expression $\frac{Rm(X,Y,Y,X)}{|X|^2|Y|^2 - \langle X,Y \rangle^2}$ is independent of the choice of basis.
+\end{proof}
+
+Because the right-hand side depends only on the intrinsic metric $g$ and its Levi-Civita connection (via $Rm$), we can define the Gaussian curvature of any abstract 2D Riemannian manifold as:
+\[ K(p) = \frac{Rm(X,Y,Y,X)}{|X|^2|Y|^2 - \langle X,Y \rangle^2} \]
+
+\begin{prop}
+For a 2D Riemannian manifold:
+\begin{enumerate}
+    \item $Rm(X,Y,Z,W) = K(p) \big( \langle X,W \rangle \langle Y,Z \rangle - \langle X,Z \rangle \langle Y,W \rangle \big)$
+    \item $Ric(X,Y) = K(p) \langle X,Y \rangle$
+    \item $S(p) = 2K(p)$
+\end{enumerate}
+\end{prop}
+\begin{proof}
+1. Since $\{e_1, e_2\}$ is an ONB, writing $X,Y,Z,W$ in terms of $\{e_1, e_2\}$ and using multilinearity proves the first identity. \\
+2. The Ricci tensor is the trace of the Riemann tensor. Let $Ric_{il} = g^{jk} Rm_{ijkl}$. Using part 1:
+\begin{align*}
+    Ric_{il} &= K(p) g^{jk} (g_{il} g_{jk} - g_{ik} g_{jl}) \\
+    &= K(p) (g_{il} (g^{jk}g_{jk}) - g^{jk}g_{ik} g_{jl}) \\
+    &= K(p) (2 g_{il} - \delta^j_i g_{jl}) \\
+    &= K(p) (2 g_{il} - g_{il}) = K(p) g_{il}
+\end{align*}
+3. The scalar curvature $S$ is the trace of the Ricci tensor:
+\[ S = g^{il} Ric_{il} = K(p) g^{il} g_{il} = 2K(p) \]
+\end{proof}
+
+\subsection*{Sectional Curvature}
+Let $\Pi \subset T_pM$ be a 2-plane. Let $S_\Pi = \exp_p(\Pi)$ be the surface near $p$ generated by geodesics tangent to $\Pi$.
+\begin{definition}
+The \textbf{sectional curvature} $K(\Pi)$ is defined as the Gaussian curvature of $S_\Pi$ at $p$.
+\end{definition}
+
+\begin{prop}
+If $X, Y$ span $\Pi$, then $K(\Pi) = \frac{Rm(X,Y,Y,X)}{|X|^2|Y|^2 - \langle X,Y \rangle^2}$.
+\end{prop}
+\begin{proof}
+Claim: $S_\Pi$ has vanishing 2nd fundamental form $\II$ at $p$.
+For any $v \in \Pi$, $\gamma_v$ is a radial geodesic in $M$ and also in $S_\Pi$. By the corollary of the Gauss formula:
+\[ 0 = \tilde{D}_t \dot{\gamma} = D_t \dot{\gamma} + \II(\dot{\gamma}, \dot{\gamma}) \]
+Evaluating at $p$ (i.e., $t=0$), we get $D_t \dot{\gamma}(0) = 0$ and $\II_p(v,v) = 0$. Hence $\II_p = 0$.
+By the Gauss equation, $\tilde{Rm}^{S_\Pi} = Rm^M$ at $p$.
+Therefore, $K(\Pi) = \frac{Rm^{S_\Pi}(X,Y,Y,X)}{|X|^2|Y|^2 - \langle X,Y \rangle^2} = \frac{Rm^M(X,Y,Y,X)}{|X|^2|Y|^2 - \langle X,Y \rangle^2}$.
+\end{proof}
+
+\begin{lemma}
+Given $T_pM$ and $g_p$, the sectional curvature at $p$ completely determines the Riemann curvature tensor $Rm(\cdot, \cdot, \cdot, \cdot)$ at $p$.
+\end{lemma}
+
+Say $v$ is a unit vector in $T_pM$. Let $\{e_i\}$ be an ONB of $T_pM$ with $v = e_1$.
+\[ Ric(v,v) = \sum_j Rm(e_1, e_j, e_j, e_1) = \sum_j K(e_1 \wedge e_j) \]
+i.e., $Ric(v,v) = (n-1) \times (\text{Average sectional curvature at } p \text{ of 2-planes in } T_pM \text{ containing } v)$.
+\[ S = \sum_{i,j} Rm(e_i, e_j, e_j, e_i) = n(n-1) \times (\text{Average sectional curvature at } p). \]
+
+\begin{example}
+$S^n \subset \R^{n+1}$ with radius $R$.
+The second fundamental form is $h = \frac{1}{R} g$ w.r.t the inward normal.
+\[ Rm(X,Y,Z,W) = h(X,W)h(Y,Z) - h(X,Z)h(Y,W) = \frac{1}{R^2} (g(X,W)g(Y,Z) - g(X,Z)g(Y,W)) \]
+$\Rightarrow$ Constant sectional curvature $\frac{1}{R^2}$.
+\end{example}
+\begin{example}
+Hyperboloid $H^n \subset \R^{1,n}$ of radius $R$.
+$\Rightarrow$ Constant sectional curvature $-\frac{1}{R^2}$.
+\end{example}
+
+\subsection{Relation Between Curvature and Geodesics via Jacobi Fields}
+
+Let $\gamma: [a,b] \to M$ be a smooth curve. Let $\Gamma: (-\varepsilon, \varepsilon) \times [a,b] \to M$ be a smooth variation of $\gamma$.
+We have already shown the symmetry lemma: $D_t \partial_s \Gamma = D_s \partial_t \Gamma$.
+
+\begin{lemma}
+If $W$ is a vector field along $\Gamma$, then:
+\[ D_s D_t W - D_t D_s W = R(\partial_s, \partial_t)W \]
+\end{lemma}
+
+Suppose for each $s \in (-\varepsilon, \varepsilon)$, the curve $\gamma_s(t) = \Gamma(s,t)$ is a geodesic. Then $D_t \partial_t \Gamma = 0$ for all $s$.
+Applying $D_s$ to this equation gives $D_s D_t \partial_t \Gamma = 0$. By the lemma:
+\[ D_t D_s \partial_t \Gamma + R(\partial_s, \partial_t)\partial_t \Gamma = 0 \]
+Using the symmetry lemma ($D_s \partial_t \Gamma = D_t \partial_s \Gamma$):
+\[ D_t D_t \partial_s \Gamma + R(\partial_s, \partial_t)\partial_t \Gamma = 0 \]
+
+Put $J(t) = \frac{\partial \Gamma}{\partial s}(0,t)$. Then at $s=0$, we get the \textbf{Jacobi equation}:
+\[ D_t D_t J + R(J, \dot{\gamma})\dot{\gamma} = 0 \]
+Any solution to the Jacobi equation is called a \textbf{Jacobi field} along $\gamma$.
+
+\begin{prop}
+Given an interval $I \subset \R$, $a \in I$, and a geodesic $\gamma: I \to M$. For any given $X, Y \in T_{\gamma(a)}M$, there is a unique Jacobi field $J$ such that $J(a) = X$ and $(D_t J)(a) = Y$.
+\end{prop}
+\begin{proof}
+Let $\{E_i\}$ be an ONB at $p = \gamma(a)$, and extend it to a parallel basis $\{E_i(t)\}$ along $\gamma$.
+Write $J(t) = J^l(t) E_l(t)$. Plugging this into the Jacobi equation gives:
+\[ (J^l)'' E_l + R(J^i E_i, \dot{\gamma})\dot{\gamma} = 0 \]
+In components:
+\[ (J^l)'' + R_{ijk}^l J^i \dot{\gamma}^j \dot{\gamma}^k = 0 \]
+This is a second-order linear ODE system. Given initial data $\{J^l(a), (J^l)'(a)\}$, it has a unique smooth solution.
+\end{proof}
+
+\begin{corollary}
+The set of all Jacobi fields along a geodesic is a vector space of dimension $2n$.
+\end{corollary}
+
+\begin{prop}
+If $J_1$ and $J_2$ are Jacobi fields along $\gamma$, then the quantity
+\[ \langle D_t J_1, J_2 \rangle - \langle J_1, D_t J_2 \rangle \]
+is constant in $t$.
+\end{prop}
+\begin{proof}
+Take the derivative with respect to $t$:
+\begin{align*}
+    \partial_t (\langle D_t J_1, J_2 \rangle - \langle J_1, D_t J_2 \rangle) &= \langle D_t D_t J_1, J_2 \rangle + \langle D_t J_1, D_t J_2 \rangle - \langle D_t J_1, D_t J_2 \rangle - \langle J_1, D_t D_t J_2 \rangle \\
+    &= \langle D_t D_t J_1, J_2 \rangle - \langle J_1, D_t D_t J_2 \rangle \\
+    &= \langle -R(J_1, \dot{\gamma})\dot{\gamma}, J_2 \rangle - \langle J_1, -R(J_2, \dot{\gamma})\dot{\gamma} \rangle \\
+    &= -Rm(J_1, \dot{\gamma}, \dot{\gamma}, J_2) + Rm(J_2, \dot{\gamma}, \dot{\gamma}, J_1)
+\end{align*}
+By the symmetries of the Riemann curvature tensor, $Rm(J_1, \dot{\gamma}, \dot{\gamma}, J_2) = Rm(J_2, \dot{\gamma}, \dot{\gamma}, J_1)$. Thus the derivative is $0$, meaning the quantity is constant.
+\end{proof}
+
+\begin{prop}
+The form defined by $\omega(J_1, J_2) = \langle D_t J_1, J_2 \rangle - \langle J_1, D_t J_2 \rangle$ makes the space of Jacobi fields along $\gamma$ into a symplectic vector space.
+\end{prop}
+\begin{proof}
+We have to show that the form is non-degenerate: if $\omega(J_1, J_2) = 0$ for all $J_2$, then $J_1 = 0$.
+Fix $t=a$. Pick the specific Jacobi field $J_2$ subject to the initial conditions:
+\[ J_2(a) = (D_t J_1)(a), \quad (D_t J_2)(a) = -J_1(a) \]
+Since $\omega(J_1, J_2)$ is constant, evaluating it at $t=a$ gives:
+\begin{align*}
+    \omega(J_1, J_2) &= \langle D_t J_1(a), J_2(a) \rangle - \langle J_1(a), D_t J_2(a) \rangle \\
+    &= \langle D_t J_1(a), D_t J_1(a) \rangle - \langle J_1(a), -J_1(a) \rangle \\
+    &= |D_t J_1(a)|^2 + |J_1(a)|^2
+\end{align*}
+If $\omega(J_1, J_2) = 0$, then $|D_t J_1(a)|^2 + |J_1(a)|^2 = 0$. 
+This implies $J_1(a) = 0$ and $D_t J_1(a) = 0$. By the uniqueness of the solution to the Jacobi equation with zero initial data, we conclude that $J_1 \equiv 0$.
+\end{proof}
 
 }
 
