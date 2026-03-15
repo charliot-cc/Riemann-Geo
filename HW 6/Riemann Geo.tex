@@ -1,0 +1,143 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+
+\title{Riemannian Geometry HW 6}
+\author{Cheng Chen}
+
+% Theorem/definition environments: unified styles and numbering by section
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{prop}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\date{}
+
+\begin{document}
+
+\maketitle
+\noindent\textbf{8-12}
+\newcommand{\hlf}{\frac{1}{2}}
+\newcommand{\qud}{\frac{1}{4}}
+{
+\newcommand{\Rm}[2]{\text{Rm}(#1, #2,#2,#1)}
+\newcommand{\trm}[2]{\widetilde{\text{Rm}}(\tilde #1, \tilde #2,\tilde #2,\tilde #1)}
+\newcommand{\aaa}[4]{\langle [\tilde#1,\tilde#2]^V,[\tilde#3,\tilde#4]^V\rangle}
+\newcommand{\nm}[1]{\left\|#1\right\|}
+\newcommand{\td}{\tilde}
+\begin{proof}
+    Using O'Neill's formula, we have
+    \begin{align*}
+        \Rm{X}{Y} &= \trm{X}{Y} - \hlf \aaa{X}{Y}{X}{Y} - \\
+        &\quad \qud \aaa{X}{Y}{Y}{X} + \qud \aaa{X}{X}{Y}{Y}.\\
+        &= \trm{X}{Y} + \frac{3}{4}\nm{[\td X,\td Y]^V}^2 \ge \trm{X}{Y}
+    \end{align*}
+    Hence, the sectional curvature of $M$ satisfies
+    \begin{align*}
+        K(X,Y) = \frac{\Rm{X}{Y}}{\|X\|^2\|Y\|^2 - \langle X,Y\rangle^2} \ge \frac{\trm{X}{Y}}{\|X\|^2\|Y\|^2 - \langle X,Y\rangle^2} = \tilde K(\tilde X, \tilde Y) \ge c.
+    \end{align*}
+\end{proof}
+}
+{
+\newcommand{\pp}[1]{\frac{\partial}{\partial #1}}
+\newcommand{\mt}[1]{\langle #1\rangle}
+\newcommand{\bs}{\mathbb{S}}
+\newcommand{\nm}[1]{\left\|#1\right\|}
+\newcommand{\Rm}[4]{\text{Rm}(#1, #2, #3, #4)}
+\newcommand{\trm}[4]{\widetilde{\text{Rm}}(\tilde #1, \tilde #2, \tilde #3, \tilde #4)}
+\newcommand{\tx}{\tilde x}
+\newcommand{\ty}{\tilde y}
+\newcommand{\tz}{\tilde z}
+\newcommand{\tw}{\tilde w}
+\newcommand{\aaa}[4]{\langle [\tilde#1,\tilde#2]^V,[\tilde#3,\tilde#4]^V\rangle}
+\newcommand{\cp}{\mathbb{CP}^{n}}
+
+
+\noindent\textbf{8-13}
+\begin{proof}
+    \textbf{(a)} We know that $\bs^{2n+1}$ can be discribed by 
+    \[F(x^1,y^1,...,x^{n+1},y^{n+1}) = \sum_{j=1}^{n+1} (x^j)^2 + (y^j)^2 - 1 = 0.\]
+    To check that $S = \sum_j x^j\pp{y^j} - y^j\pp{x^j}$ is tangent to $\bs^{2n+1}$, we compute
+    \[\nabla F \cdot (-y^1,x^1,...,-y^{n+1},x^{n+1}) = 2(\sum -y^jx^j + y^jx^j) = 0.\]
+    Hence, $S$ is tangent to $\bs^{2n+1}$. 
+
+    To see that $S$ spans the vertical space at each point $z$, we look at this curve $\gamma(t) = e^{it}z$. We know by definition of projective space that
+    \[dp(\gamma') = 0.\]
+    Hence the vertical space at $z$ is spanned by $\gamma'(0) = ip = S.$
+
+    \textbf{(b)} First, we observe that $\nm{S} = \sum (x^j)^2 + (y^j)^2 = 1$, and it spans the vertical space. Hence, we can rewrite $[W,Z]^V$ as a projection along $S$:
+    \[[W,Z]^V = \mt{[W,Z],S}S.\]
+\newcommand{\w}{\omega}
+    Next, we compute
+    \[d\w(W,Z) = W(S^\flat(Z)) - Z(S^\flat(W)) - S^\flat([W,Z]) = 0 - 0 - \mt{[W,Z],S}.\]
+    Here, $S^\flat(W) = S^\flat(Z) = \mt{W,S} = \mt{Z,S} = 0$ since $S$ is tangent to $\bs^{2n+1}$. Hence we conclude that $[W,Z]^V = -d\w(W,Z)S$. Besides, we know 
+    \[\w = S^\flat = \sum_j x^jdy^j - y^jdx^j,\]
+    and
+    \[d\w = \sum_j (dx^j \wedge dy^j - dy^j \wedge dx^j) = \sum_j 2dx^j \wedge dy^j.\]
+    Suppose $W = \sum_j w_x^j\pp{x^j} + w_y^j\pp{y^j}$, and $Z = \sum_j z_x^j\pp{x^j} + z_y^j\pp{y^j}$, then we have
+    \[-d\w(W,Z) = \sum_j 2(w_x^j z_y^j - w_y^j z_x^j) = 2\mt{W,JZ}.\]
+    Therefore, $[W,Z]^V = -d\w(W,Z)S = 2\mt{W,JZ}S$.
+\newcommand{\bbb}[4]{\mt{#1,J#2}\mt{#3,J#4}}
+\newcommand{\II}{\mathrm{I\!I}}
+\newcommand{\ccc}[4]{h(#1,#2)h(#3,#4)}
+
+    \textbf{(c)} Using O'Neill's formula, we have
+    \begin{align*}
+        \Rm{w}{x}{y}{z} &= \trm{w}{x}{y}{z} - \hlf \aaa{w}{x}{y}{z} \\
+        &\quad - \qud \aaa{w}{y}{x}{z} + \qud \aaa{w}{z}{x}{y}\\
+        &= \trm{w}{x}{y}{z}\\
+        &\quad -2\bbb{\tw}{\tx}{\ty}{\tz} - \bbb{\tw}{\ty}{\tx}{\tz} + \bbb{\tw}{\tz}{\tx}{\ty}.
+    \end{align*}
+    Recall the Gauss equation for $\widetilde{\text{Rm}}$ as a submanifold of $\mathbb{R}^{2n+2}$,
+    \[\trm{w}{x}{y}{z} =  \ccc{\tw}{\tz}{\tx}{\ty} -\ccc{\tw}{\ty}{\tx}{\tz} .\]
+    By Weigarten equation for any two vector fields $X,\,Y$ on $\bs^{2n+1}$, and $N$ is the local unit normal vector,
+    \[h(X,Y) = \mt{SX,Y} = \mt{-\nabla_X N,Y}.\]
+    However, for a sphere and a point $p\in \bs^{2n+1}$, we can choose $N = -p$. Because the Levi-civita connection on $\bs^{2n+1}$ is
+    induced from the regular connection on $\mathbb{R}^{2n+2}$, we have that $\nabla_X N = -X$, hence $h(X,Y) = \mt{X,Y}$.
+
+    Therefore, we conclude
+    \begin{align*}
+        \Rm{w}{x}{y}{z} &= \mt{\tw,\tz}\mt{\tx,\ty}-\mt{\tw,\ty}\mt{\tx,\tz}\\
+        &\quad -2\bbb{\tw}{\tx}{\ty}{\tz} - \bbb{\tw}{\ty}{\tx}{\tz} + \bbb{\tw}{\tz}{\tx}{\ty}.
+    \end{align*}
+    
+    \textbf{(d)} By definition, 
+    \begin{align*}
+        sec(w,x) &= \frac{\Rm{w}{x}{x}{w}}{|w|^2|x|^2 - \mt{w,x}^2} = \Rm{w}{x}{x}{w}\\
+        &= |w|^2|x|^2 - 0 - 3\mt{\tw,J\tx}\mt{\tx,J\tw} + \mt{\tw,J\tw}\mt{\tx,J\tx}.
+    \end{align*}
+    We write $\tw = w_u^j\pp{u_j} + w_v^j\pp{v_j}$ and $\tx = x_u^j\pp{u_j} + x_v^j\pp{v_j}$ and calculate.
+    \[\mt{\tw,J\tw} = \sum -w_u w_v + w_vw_u = 0.\]
+    \[\mt{\tx,J\tw} = \sum w_ux_v - w_vx_u = -\mt{\tw,J\tx}.\]
+    Hence, we conclude
+    \[ sec(w,x) = 1 + 3\mt{\tw,J\tx}^2.\]
+
+    \textbf{(e)} When $n\ge 2$, $\dim \cp \ge 4$. We may fix a vector $w\in T_q\cp$. $\dim span(w,Jw) = 2 < 4$. We can pick a vector
+    $v$ that is orthogonal to $w$ and $Jw$. For any $\theta \in [0,2\pi]$, we look at the vector $x = \cos\theta Jw + \sin\theta v$.
+    It satisfies $\mt{x,w} = 0$ and 
+    $$sec(w,x) = 1+ 3\mt{\tx , J\tw}^2 = 1 + 3\cos^2\theta.$$
+    while $0\le \mt{\tx , J\tw}\le 1$, we conclude that $sec(w,x)$ takes all values in $[1,4]$.
+
+    To argue that $\cp$ is not frame-homogeneous, recall that if $\phi:\cp \to\cp$ is isometry, then it fix the metric and Levi-Civita connection
+    on $\cp$. Thus, the sectional curvature $K(S_\Pi) = \frac{Rm(w,x,x,w)}{|w|^2|x|^2 - \mt{w,x}^2}$ is invarient under $\phi$. Suppose
+    since we have proofed that $sec(w,x)$ can take different values, say, $sec(w,x)\ne sec(w',x')$, there cannot exist a isometry $\phi$
+    that maps $(w,x)$ to $(w',x')$. Hence $\cp$ is not frame homogeneous.
+    
+    \textbf{(f)} Since $\dim \mathbb{CP}^1 = 2$, if we pick any unit vector $w\in T_q \mathbb{CP}^1$, $w$ and $Jw$ spans the entire tangent space.
+    Hence, the only sectional curvature at $q$ is $sec(w,Jw) = 4$. While $\dim \mathbb{CP}^1 = 2$, its Gaussian curvature is equal to the sectional curvature.
+    Hence $K = 4$.
+
+\end{proof}
+}
+\end{document}
