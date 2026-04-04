@@ -39,6 +39,9 @@
 \DeclareMathOperator{\End}{End}
 \DeclareMathOperator{\tr}{tr}
 \DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\diam}{diam}
+\DeclareMathOperator{\Ric}{Ric}
+\DeclareMathOperator{\Isom}{Isom}
 
 
 \begin{document}
@@ -47,6 +50,7 @@
 
 \tableofcontents
 \newpage
+\section{Lecture 1 is omitted.}
 \section{Lecture 2}
 
 \section*{Tensor Fields and $C^\infty(M)$-Multilinear Maps}
@@ -2735,5 +2739,313 @@ t_{\text{cut}}(v) = \sup \{ b > 0 : \gamma_v|_{[0, b]} \text{ is minimizing} \}.
 \begin{definition}
 The \textbf{cut locus} of $p$ is $\{ q \in M : q \text{ is a cut point of } p \text{ along some geodesic} \}$.
 \end{definition}
+}
+\newpage
+
+{
+    \section{Lecture 19}
+    \subsection{Classical Theorems}
+    \begin{proposition}
+If $\gamma_1, \gamma_2$ are two distinct minimizing geodesics from $p$ to $q$, then neither is minimizing beyond $q$.
+\end{proposition}
+
+\begin{proposition}
+$\gamma$ cannot be minimizing beyond a conjugate point.
+\end{proposition}
+
+\begin{theorem}[Bonnet]
+Suppose $M$ is a connected complete Riemannian manifold, with sectional curvatures $K \ge \frac{1}{R^2} > 0$. Then $M$ is compact, $\diam(M) = \sup_{p,q \in M} d(p,q) \le \pi R$, and $\pi_1(M)$ is finite.
+\end{theorem}
+
+\begin{proof}
+Suppose $\diam(M) > \pi R$, i.e., $\exists p, q \in M$, and a minimizing geodesic $\gamma: p \to q$, defined on $[0, L] \to M$ with $L > \pi R$.
+
+Let $E$ be a parallel unit normal vector field along $\gamma$. Put $V(t) = \sin\left(\frac{\pi t}{L}\right) E(t)$, which is a proper normal vector field along $\gamma$.
+We have $D_t V = \left(\frac{\pi}{L} \cos\left(\frac{\pi t}{L}\right)\right) E(t)$, and the index form is:
+\begin{align*}
+I(V, V) &= \int_0^L \left[ \left|D_t V\right|^2 - R(V, \dot{\gamma}, \dot{\gamma}, V) \right] dt \\
+&= \int_0^L \left[ \frac{\pi^2}{L^2} \cos^2\left(\frac{\pi t}{L}\right) - \sin^2\left(\frac{\pi t}{L}\right) K(\dot{\gamma} \wedge E) \right] dt \\
+&\le \int_0^L \left[ \frac{\pi^2}{L^2} \cos^2\left(\frac{\pi t}{L}\right) - \frac{1}{R^2} \sin^2\left(\frac{\pi t}{L}\right) \right] dt \\
+&= \frac{L}{2} \left[ \frac{\pi^2}{L^2} - \frac{1}{R^2} \right] < 0
+\end{align*}
+since $L > \pi R \implies \frac{\pi^2}{L^2} < \frac{1}{R^2}$. This contradicts the fact that $\gamma$ is length-minimizing (which requires $I(V,V) \ge 0$).
+
+Hence, $\diam(M) \le \pi R$. Thus, for any $p \in M$, $M = \exp_p\left(\overline{B_{\pi R}(0)}\right)$. Since $\exp_p$ is continuous and the closed ball $\overline{B_{\pi R}(0)} \subset T_p M$ is compact, $M$ is compact.
+
+Look at the universal cover $\tilde{M}$. It also has $K \ge \frac{1}{R^2}$. Apply the same argument to $\tilde{M}$, so $\tilde{M}$ is compact. Hence $\pi_1(M)$ is finite.
+\end{proof}
+
+\begin{theorem}[Myers]
+The same conclusion holds if the Ricci curvature satisfies $\Ric(v,v) \ge \frac{n-1}{R^2} g(v,v)$ for all $v \in TM$.
+\end{theorem}
+
+\begin{proof}
+Suppose $\diam(M) > \pi R$. Find a minimizing geodesic $\gamma: [0, L] \to M$ from $p$ to $q$ with $L > \pi R$.
+
+Let $\{E_i\}$ be an orthonormal basis of $\dot{\gamma}^\perp \in T_{\gamma(t)}M$. Extend these to be parallel vector fields $E_i(t)$ along $\gamma$. 
+Put $V_i(t) = \sin\left(\frac{\pi t}{L}\right) E_i(t)$ for each $1 \le i \le n-1$.
+\[
+I(V_i, V_i) = \int_0^L \left[ \frac{\pi^2}{L^2} \cos^2\left(\frac{\pi t}{L}\right) - \sin^2\left(\frac{\pi t}{L}\right) R(E_i, \dot{\gamma}, \dot{\gamma}, E_i) \right] dt
+\]
+Summing over all $i$:
+\begin{align*}
+\sum_{i=1}^{n-1} I(V_i, V_i) &= \int_0^L \left[ (n-1)\frac{\pi^2}{L^2} \cos^2\left(\frac{\pi t}{L}\right) - \sin^2\left(\frac{\pi t}{L}\right) \Ric(\dot{\gamma}, \dot{\gamma}) \right] dt \\
+&\le \int_0^L \left[ (n-1)\frac{\pi^2}{L^2} \cos^2\left(\frac{\pi t}{L}\right) - \sin^2\left(\frac{\pi t}{L}\right) \frac{n-1}{R^2} \right] dt \\
+&= (n-1) \frac{L}{2} \left[ \frac{\pi^2}{L^2} - \frac{1}{R^2} \right] < 0
+\end{align*}
+This implies that for at least one $i$, $I(V_i, V_i) < 0$, which is a contradiction. Hence $\diam(M) \le \pi R$. The rest of the proof follows exactly as in Bonnet's Theorem.
+\end{proof}
+
+\begin{remark}
+Positive curvature $\implies$ focusing geodesics. \\
+Negative curvature $\implies$ defocusing geodesics.
+\end{remark}
+
+\begin{theorem}[Synge]
+Suppose $M$ is compact and connected with strictly positive sectional curvature ($K > 0$).
+\begin{enumerate}
+    \item If $n$ is even and $M$ is orientable, then $M$ is simply connected.
+    \item If $n$ is odd, then $M$ is orientable.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}[Proof of 1]
+First, we state a lemma from linear algebra:
+\begin{lemma}
+If $A \in SO(k)$ and $k$ is odd, then $\exists v \neq 0$ such that $Av = v$.
+\end{lemma}
+\textit{Proof of Lemma:} 
+\begin{align*}
+\det(A - I) &= \det(A^{-1}) \cdot \det(A - I) = \det(I - A^{-1}) \\
+&= \det(I - A^T) = \det((I - A)^T) = \det(I - A) \\
+&= (-1)^k \det(A - I) = -\det(A - I) \quad (\text{since } k \text{ is odd})
+\end{align*}
+This implies $\det(A - I) = 0$, so $1$ is an eigenvalue.
+
+Now, suppose $n$ is even, $M$ is orientable, and $\pi_1(M) \neq \{0\}$. 
+We know there is a bijection:
+\[ \{\text{Free homotopy classes of loops}\} \longleftrightarrow \{\text{Conjugacy classes of } \pi_1(M)\} \]
+Since $\pi_1(M) \neq 0$, there exists a non-trivial homotopy class of loops, so we can find a non-trivial closed geodesic $\gamma$ that minimizes length in this class.
+
+Take $p$ on $\gamma$. Look at parallel transport around $\gamma$, yielding an isometry $P_\gamma \in \End(T_p M)$.
+Write $P_\gamma = I|_{\langle \dot{\gamma}_p \rangle} \oplus A$, where $A = P_\gamma|_{\dot{\gamma}_p^\perp}$.
+Choose an orthonormal basis for $\dot{\gamma}_p^\perp$. Since $M$ is orientable, parallel transport preserves orientation, so $A \in SO(n-1)$.
+Because $n$ is even, $n-1$ is odd. By the Lemma, $\exists v \in \dot{\gamma}_p^\perp$ with $Av = v$. Say $|v| = 1$.
+
+Let $V(t)$ be the vector field along $\gamma$ obtained by parallel transport of $v$. Because $Av = v$, $V$ smoothly closes up and defines a global parallel normal vector field along the closed geodesic $\gamma$.
+The index form for $V$ is:
+\[
+I(V, V) = \int_0^L \left[ |D_t V|^2 - R(V, \dot{\gamma}, \dot{\gamma}, V) \right] dt = -\int_0^L K(V, \dot{\gamma}) dt < 0
+\]
+since $D_t V = 0$ and $K > 0$. This implies we can deform $\gamma$ in the direction of $V$ to strictly decrease its length, which is a contradiction since $\gamma$ minimizes length in its free homotopy class.
+\end{proof}
+
+\begin{corollary}
+$\mathbb{RP}^2 \times \mathbb{RP}^2$ has no metric with positive sectional curvature.
+\end{corollary}
+\begin{remark}
+\textbf{Hopf's Conjecture:} $S^2 \times S^2$ has no metric with strictly positive sectional curvature.
+\end{remark}
+
+\newpage
+
+\subsection{The Cut Locus}
+
+Suppose $(M,g)$ is connected and complete. Let $p \in M$ and let $\gamma_v(t) = \exp_p(tv)$ be a unit-speed geodesic (i.e., $|v| = 1$).
+
+\begin{definition}
+Let $t(v) := \sup \{ b > 0 \mid \gamma_v|_{[0, b]} \text{ is minimizing} \} \in (0, \infty]$. \\
+The \textbf{cut point} of $p$ along $\gamma_v$ is defined as $\gamma_v(t(v))$. \\
+The \textbf{cut locus} of $p$ is the set $\{ q \in M \mid q \text{ is a cut point of } p \text{ along some geodesic} \}$.
+\end{definition}
+
+\begin{proposition}
+Given $p \in M$, $v \in T_p M$ with $|v| = 1$. Put $c = t(v)$.
+\begin{enumerate}
+    \item If $0 < b < c$, then $\gamma_v|_{[0, b]}$ has no conjugate points and is the unique minimizing geodesic between its endpoints.
+    \item If $c < \infty$, then $\gamma_v|_{[0, c]}$ is minimizing, and either $\gamma_v(c)$ is conjugate to $p$ along $\gamma_v$, OR there exist at least two distinct minimizing geodesics from $p$ to $\gamma_v(c)$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+\textbf{Part 1:} Choose $b < b' < c$. If $\gamma_v|_{[0, b']}$ had a conjugate point, or if there existed two distinct minimizing geodesics to $\gamma_v(b')$, then $\gamma_v$ would cease to be minimizing beyond $b'$. Thus $\gamma_v|_{[0, b']}$ would not be minimizing, which contradicts the definition of $c = t(v)$.
+
+\textbf{Part 2:} To show $\gamma_v$ is minimizing on $[0, c]$: take $b_i \nearrow c$. Then $d(p, \gamma_v(b_i)) = b_i$. By continuity of the distance function, $d(p, \gamma_v(c)) = \lim d(p, \gamma_v(b_i)) = \lim b_i = c$.
+
+Assume $c < \infty$. We want to show the alternative conditions.
+Take $b_i \searrow c$. Since $b_i > c$, $\gamma_v|_{[0, b_i]}$ is not minimizing. 
+However, $M$ is complete, so there exists a unit-speed minimizing geodesic $\sigma_i : [0, a_i] \to M$ such that $\sigma_i(a_i) = \gamma_v(b_i)$, where $a_i = d(p, \gamma_v(b_i)) < b_i$.
+
+Put $w_i = \sigma_i'(0) \in T_p M$, with $|w_i| = 1$.
+Since the unit sphere in $T_pM$ is compact, after passing to a subsequence, we can assume $w_i \to w$ for some unit vector $w \in T_pM$, and $a_i \to a$.
+By continuity, $\sigma_i(a_i) = \exp_p(a_i w_i) \to \exp_p(aw) = \gamma_w(a)$.
+On the other hand, $\sigma_i(a_i) = \gamma_v(b_i) \to \gamma_v(c)$. So $\exp_p(aw) = \gamma_v(c)$.
+
+Also, the distance is continuous:
+\[ c = d(p, \gamma_v(c)) = \lim d(p, \sigma_i(a_i)) = \lim a_i = a \]
+So $a = c$. The geodesic $\sigma : [0, c] \to M$ given by $\sigma(t) = \exp_p(tw)$ is also a minimizing curve from $p$ to $\gamma_v(c)$.
+
+\begin{itemize}
+    \item If $v \neq w$, then $\sigma$ and $\gamma_v$ are two distinct minimizing geodesics from $p$ to $\gamma_v(c)$.
+    
+    \item If $v = w$, we need to show $\gamma_v(c)$ is conjugate to $p$. 
+    For large $i$, we have $a_i w_i \neq b_i v$ (since $|w_i|=|v|=1$ and $a_i < b_i$).
+    However, we know $\exp_p(a_i w_i) = \sigma_i(a_i) = \gamma_v(b_i) = \exp_p(b_i v)$.
+    We also have $a_i w_i \to cw = cv$ and $b_i v \to cv$.
+    Since $\exp_p$ maps distinct sequences of points converging to $cv$ to the same values, $\exp_p$ is not injective in any neighborhood of $cv \in T_pM$.
+    By the Inverse Function Theorem, the differential $(d\exp_p)_{cv}$ cannot be invertible. Therefore, $cv$ is a critical point of $\exp_p$, which by definition means $\gamma_v(c)$ is conjugate to $p$ along $\gamma_v$.
+\end{itemize}
+\end{proof}
+}
+\newpage
+{
+    \section{Lecture 20}
+
+    \subsection{Injectivity Domain and Injectivity Radius}
+
+\begin{definition}
+The \textbf{injectivity domain} of $p$, denoted $ID(p) \subset T_pM$, is defined as:
+\[ ID(p) = \{ v \in T_pM : |v| < t_{\text{cut}}(v/|v|) \} \]
+\end{definition}
+
+\begin{proposition}
+$\exp_p$ is a diffeomorphism of $ID(p)$ to its image $M \setminus \text{cut}(p)$.
+\end{proposition}
+
+\begin{proof}
+There are no conjugate points in $ID(p)$, so $\exp_p$ is a local diffeomorphism on $ID(p)$. Moreover, $\exp_p$ is injective on $ID(p)$, since if two geodesics from $p$ meet, they cannot be minimizing beyond that intersection point. Hence, the image is exactly $M \setminus \text{cut}(p)$.
+\end{proof}
+
+\begin{definition}
+The \textbf{injectivity radius} at $p$ is:
+\[ \operatorname{inj}(p) = \sup \{ a > 0 : \exp_p \text{ is a diffeomorphism from } B_a(0) \subset T_pM \text{ to its image in } M \} \in \mathbb{R}^+ \cup \{\infty\}. \]
+\end{definition}
+
+\begin{proposition}
+If $M$ is complete, $\operatorname{inj}(p) = d(p, \text{cut}(p))$.
+\end{proposition}
+
+\begin{proof}
+Put $d = d(p, \text{cut}(p))$. Given $a$, we write $B_a$ for an open ball with radius $a$ around $0 \in T_pM$. We claim that $\exp_p$ is a local diffeomorphism $B_a \to \exp_p(B_a)$ if and only if $a \le d$.
+\begin{itemize}
+    \item Suppose $a \le d$, then $B_a \subset ID(p)$, and we are done.
+    \item If $a > d$, then there exists a cut point $q$ for $p$ with $d(p,q) < a$. Take the radial geodesic from $p$ to $q$; it is not minimizing beyond $q$ since $q$ is a cut point. So there is no normal ball of radius $> d(p,q)$ that $\exp_p$ is a local diffeomorphism on it.
+\end{itemize}
+\end{proof}
+
+\begin{example}
+Metrics on $S^2$.
+\end{example}
+
+\begin{proposition}
+If $M$ is diffeomorphic to $S^2$, then $\text{cut}(p)$ cannot contain a loop.
+\end{proposition}
+
+\begin{proof}
+Suppose $L$ is a loop in $\text{cut}(p)$. Take $q$ inside $L$ and take a minimizing geodesic from $p$ to $q$. It must intersect $L$, hence it cannot be minimizing beyond the intersection.
+\end{proof}
+
+\subsection{Comparison Geometry}
+
+Recall the Jacobi equation:
+\[ D_t^2 J + R(J, \dot{\gamma})\dot{\gamma} = 0 \]
+Bound on curvature $\Rightarrow$ Bound on Jacobi field $\Rightarrow$ Bound on Riemannian metric.
+
+\textbf{Model case:} A scalar equation $f'' + K f = 0$, where $K \equiv K(t)$.
+This is the Sturm-Liouville equation:
+\[ (*) \quad \frac{f''}{f} + K = 0 \]
+Put $h = \frac{f'}{f}$ and get:
+\[ (**) \quad h' + h^2 + K = 0 \quad \text{(Riccati equation)} \]
+
+\begin{definition}
+If $U \subset M$, a \textbf{local distance function} on $U$ is a smooth function $f$ with $|\nabla f| = 1$.
+\end{definition}
+
+Put $F = \nabla f$. We previously showed that $\nabla_F F = 0$. Every flow line of $F$ is a unit-speed geodesic.
+
+\begin{definition}
+Let $\mathcal{H} \in \Gamma(T_1^1(U))$ be given by $\mathcal{H}(W) = \nabla_W F$ for any $W \in TU$. Note that $\mathcal{H} \in \Gamma(\operatorname{End}(TM))$, and $U$ is a level set of $f$.
+\end{definition}
+
+\begin{lemma}
+$\mathcal{H}(F) = 0$ and $\mathcal{H}$ is self-adjoint.
+\end{lemma}
+
+\begin{proof}
+$\mathcal{H}(F) = \nabla_F F = 0$.
+For the self-adjointness:
+\[ \langle V, \mathcal{H}(W) \rangle = \langle V, \nabla_W F \rangle = \operatorname{Hess}(f)(V, W) = \langle \mathcal{H}(V), W \rangle \]
+\end{proof}
+
+\begin{proposition}
+\[ \nabla_F \mathcal{H} + \mathcal{H}^2 + R_F = 0 \]
+where $R_F(W) = R(W, F)F$.
+\end{proposition}
+
+\begin{proof}
+We compute $R(W, F)F$:
+\begin{align*}
+R(W, F)F &= \nabla_W \nabla_F F - \nabla_F \nabla_W F - \nabla_{[W, F]} F \\
+&= 0 - \nabla_F(\mathcal{H}(W)) - \mathcal{H}([W, F]) \quad \text{(since $\nabla_F F = 0$)} \\
+&= -(\nabla_F \mathcal{H})(W) - \mathcal{H}(\nabla_F W) - \mathcal{H}([W, F])
+\end{align*}
+Since $[W, F] = \nabla_W F - \nabla_F W$, we have $\nabla_F W + [W, F] = \nabla_W F$. Therefore:
+\begin{align*}
+R(W, F)F &= -(\nabla_F \mathcal{H})(W) - \mathcal{H}(\nabla_F W + [W, F]) \\
+&= -(\nabla_F \mathcal{H})(W) - \mathcal{H}(\nabla_W F) \\
+&= -(\nabla_F \mathcal{H})(W) - \mathcal{H}(\mathcal{H}(W)) \\
+&= -(\nabla_F \mathcal{H})(W) - \mathcal{H}^2(W)
+\end{align*}
+So:
+\[ (\nabla_F \mathcal{H})(W) + \mathcal{H}^2(W) + R(W, F)F = 0 \iff \nabla_F \mathcal{H} + \mathcal{H}^2 + R_F = 0 \]
+\end{proof}
+
+\begin{corollary}
+On a flowline $\gamma$ of $F$,
+\[ D_t \mathcal{H} + \mathcal{H}^2 + R_{\dot{\gamma}} = 0 \]
+where $R_{\dot{\gamma}}(W) = R(W, \dot{\gamma})\dot{\gamma}$.
+\end{corollary}
+
+\textbf{Geometry meaning:} $F = \nabla f$ is a unit normal to a level set of $f$. Hence $\nabla_W F$ is the shape operator of this level set, with respect to $N = -\nabla f$. (If $W$ is tangent to the level set, this is the Weingarten map).
+
+\textbf{Main example:} Let $p \in M$, and let $U = (\text{A normal neighborhood of } p) \setminus \{p\}$. Let $f$ be the radial function $r$, i.e., $f(q) = d(p, q)$. By Gauss's lemma, $F = \nabla f$ is exactly $\partial_r$.
+
+\textbf{Constant curvature $c$:}
+Put
+\[ s_c(r) = 
+\begin{cases} 
+r & \text{if } c=0 \\ 
+R \sin(r/R) & \text{if } c = \frac{1}{R^2} \\ 
+R \sinh(r/R) & \text{if } c = -\frac{1}{R^2} 
+\end{cases}
+\]
+The metric can be written as $g = dr^2 + s_c^2(r) g_{S^{n-1}}$.
+
+By $SO(n-1)$ symmetry, $\mathcal{H} = \alpha(r) \Pi_r$, where $\Pi_r: T_qM \to T_qM$ is the projection onto $\partial_r^\perp$.
+We have the equation $\alpha' + \alpha^2 + c = 0$, with the asymptotic behavior $\alpha(r) \sim \frac{1}{r}$ as $r \to 0$.
+
+We can find that $\alpha(r) = \frac{s_c'(r)}{s_c(r)}$, and check:
+\[ \alpha' + \alpha^2 + c = \frac{s_c'' s_c - (s_c')^2}{s_c^2} + \left(\frac{s_c'}{s_c}\right)^2 + c = \frac{s_c''}{s_c} + c = 0 \]
+(since $s_c$ satisfies $s_c'' + c s_c = 0$).
+
+\subsection{Matrix Riccati Equation Comparison}
+
+Let $V$ be an inner product space, and $A, B$ be endomorphisms of $V$.
+
+\begin{definition}
+We define $A \ge 0$ if $\langle v, Av \rangle \ge 0$ for all $v \in V$. We write $A \ge B$ if $A - B \ge 0$.
+Let $S(n, \mathbb{R})$ denote the space of symmetric $n \times n$ matrices.
+\end{definition}
+
+\begin{theorem}
+Say $H, \tilde{H} :[a,b] \to S(n, \mathbb{R})$ satisfy the Riccati equations:
+\begin{align*}
+    H' + H^2 + S &= 0 \\
+    \tilde{H}' + \tilde{H}^2 + \tilde{S} &= 0
+\end{align*}
+where $S, \tilde{S} : [a,b] \to S(n, \mathbb{R})$ are continuous, and $\tilde{S}(t) \ge S(t)$ for all $t \in [a,b]$.
+
+Suppose $\lim_{t \to a} (\tilde{H}(t) - H(t)) \le 0$. Then $\tilde{H}(t) - H(t) \le 0$ for all $t \in [a,b]$.
+\end{theorem}
 }
 \end{document}
