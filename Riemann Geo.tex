@@ -3096,10 +3096,10 @@ Say $\gamma: [a,b] \to M$ is a unit-speed geodesic. $\eta, \tilde{\eta}$ are sel
 
 \subsection{Riccati Comparison for Shape Operators}
 
-\begin{theorem}
+\begin{theorem}[sectional curvature controls Heissian of distance]
 Say $(M,g)$ is a Riemannian manifold, $p \in M$, and $U$ is a normal ball around $p$. Say $r$ is the distance function from $p$ on $U$.
 \begin{enumerate}
-    \item If $K \le c$ (sectional curvature), then on $U_0 \setminus \{p\}$, 
+    \item If $K \le c$ (sectional curvature, in the sense that the inequality holds for all tangent planes), then on $U_0 \setminus \{p\}$, 
     \[ \mathcal{H}_r \ge \frac{s_c'}{s_c} \Pi_r \quad\text{Here, $\mathcal{H}_r$ is the shape operator of $U$.}\]
     where $U_0 = \begin{cases} U & \text{if } c \le 0 \\ U \cap B_p(\pi R) & \text{if } c = \frac{1}{R^2} \end{cases}$, and $\Pi_r$ is the projection onto $\partial_r^\perp$. $s_c = \begin{cases} r & \text{if } c = 0 \\ R \sin(\frac{r}{R}) & \text{if } c = \frac{1}{R^2} \\ R \sinh(\frac{r}{R}) & \text{if } c = -\frac{1}{R^2} \end{cases}$.
     \item If $K \ge c$, then $\mathcal{H}_r \le \frac{s_c'}{s_c} \Pi_r$ on $U$.
@@ -3117,6 +3117,8 @@ Hence if $K \le c$ (which implies $R_{\dot{\gamma}} \le c\Pi_r$), we have $\math
 If $K \ge c$, we have $\mathcal{H}_r \le \mathcal{H}_r^c$ on $U_0$. 
 If $c = \frac{1}{R^2}$, radius $\le \pi R$, so $U_0 = U$.
 \end{proof}
+\textit{Remark}: The shape operator $\mathcal{H}_r$ measures the rate of how radial geodesics converges (in sphere model) or diverges (in hyperbolic model).
+
 
 
 \subsection{Jacobi Field Estimates}
@@ -3135,8 +3137,8 @@ At $s=0$, $D_t J = \mathcal{H}_r(J)$.
 \begin{theorem}
 Say $\gamma: [a,b] \to M$ is a unit-speed geodesic, and $J$ is a normal Jacobi field along $\gamma$ with $J(0)=0$.
 \begin{enumerate}
-    \item If $K \le c$, then $|J(t)| \ge s_c(t) |D_t J(0)|$ for all $t \in (0, b_1]$, where $b_1 = b$ if $c \le 0$, and $\min(b, \pi R)$ if $c = 1/R^2$.
-    \item If $K \ge c$, then $|J(t)| \le s_c(t) |D_t J(0)|$ for all $t \in[0, b_2]$, where $b_2 = b$ if there is no conjugate point along $\gamma$, and $\min(b, \text{time of the first conjugate point})$ otherwise.
+    \item If $K \le c$, then $|J(t)| \ge s_c(t) |D_t J(a)|$ for all $t \in [a, b_1]$, where $b_1 = b$ if $c \le 0$, and $\min(b, \pi R)$ if $c = 1/R^2$.
+    \item If $K \ge c$, then $|J(t)| \le s_c(t) |D_t J(a)|$ for all $t \in[a, b_2]$, where $b_2 = b$ if there is no conjugate point along $\gamma$, and $\min(b, \text{time of the first conjugate point})$ otherwise.
 \end{enumerate}
 \end{theorem}
 
@@ -3319,49 +3321,8 @@ Because $ID(p)$ is star-shaped with respect to the origin, $\lambda(r, \theta) \
 
 \textbf{Equality case:} If equality holds, we find $\mathring{H}_r = 0$, so $H_r = \frac{s_c'}{s_c} \Pi_r$. This implies the metric is locally $g = dr^2 + s_c^2(r) g_{S^{n-1}}$, which means it is isometric to the space of constant curvature.
 \end{proof}
+\textit{Remark}: With this, we can view the Ricci curvature as discribing how the radial geodesics diverges or converges in the sense of volume growth. 
 
-\subsection{Cut Locus and Conjugate Points}
 
-Let $M$ be connected and complete, $p \in M$.
-\begin{definition}
-For $v \in T_p M$, define $t(v) = \sup \{ b > 0 : \gamma_v|_{[0,b]} \text{ is minimizing} \}$.
-The \textbf{cut point} of $p$ along $\gamma_v$ is defined as $\gamma_v(t(v))$.
-The \textbf{cut locus} of $p$ is the union of the cut points along all geodesics from $p$.
-\end{definition}
-
-\begin{proposition}
-Given $p \in M$, $v \in T_p M$ with $|v| = 1$. Put $c = t(v)$.
-\begin{enumerate}
-    \item If $0 < b < c$, then $\gamma_v|_{[0,b]}$ has no conjugate points and is minimizing.
-    \item If $c < \infty$, then $\gamma_v|_{[0,c]}$ is minimizing, and $\gamma_v(c)$ is conjugate to $p$ along $\gamma_v$, OR there exist at least two distinct minimizing geodesics from $p$ to $\gamma_v(c)$.
-\end{enumerate}
-\end{proposition}
-
-\begin{proof}
-\textbf{1.} Choose $b < b' < c$. If $\gamma_v|_{[0,b']}$ has a conjugate point, or if there are two minimizing geodesics between its endpoints, then $\gamma_v|_{[0,b']}$ is not minimizing. This contradicts $c = \sup \{ b > 0 \}$.
-
-\textbf{2.} Take $b_i \nearrow c$. Since $\gamma_v|_{[0, b_i]}$ is minimizing, $d(p, \gamma_v(b_i)) = b_i$. By continuity of distance, $d(p, \gamma_v(c)) = \lim d(p, \gamma_v(b_i)) = \lim b_i = c$. So $\gamma_v$ is minimizing on $[0, c]$.
-
-Assume $c < \infty$. Take $b_i \searrow c$. Then $\gamma_v|_{[0, b_i]}$ is not minimizing. There exists a unit-speed minimizing geodesic $\sigma_i: [0, a_i] \to M$ so that $\sigma_i(a_i) = \gamma_v(b_i)$, where $a_i < b_i$.
-Put $w_i = \dot{\sigma}_i(0) \in T_p M$, $|w_i| = 1$. 
-
-After passing to a subsequence, we can assume $w_i \to w$ and $a_i \to a$.
-By continuity of the exponential map, $\sigma_i(a_i) = \exp_p(a_i w_i) \to \exp_p(a w) = \gamma_w(a)$.
-Also $\sigma_i(a_i) = \gamma_v(b_i) \to \gamma_v(c)$. So $\gamma_w(a) = \gamma_v(c)$.
-
-Since the distance function is continuous:
-\[ c = d(p, \gamma_v(c)) = \lim d(p, \gamma_v(b_i)) = \lim d(p, \sigma_i(a_i)) = \lim a_i = a \]
-So $a = c$. Thus $\gamma_w|_{[0,c]}$ is also a minimizing geodesic from $p$ to $\gamma_v(c)$.
-
-\begin{itemize}
-    \item If $v \neq w$, then we have found two distinct minimizing geodesics from $p$ to $\gamma_v(c)$.
-    \item If $v = w$, we need to show that $\gamma_v(c)$ is conjugate to $p$ along $\gamma_v$.
-    Since $a_i < b_i$, we have $a_i w_i \neq b_i v$. 
-    However, $\exp_p(a_i w_i) = \sigma_i(a_i) = \gamma_v(b_i) = \exp_p(b_i v)$.
-    We also have $a_i w_i \to c w = c v$ and $b_i v \to c v$.
-    This means $\exp_p$ maps distinct points converging to $cv$ to the same image point. Hence, $\exp_p$ is not injective in any neighborhood of $cv \in T_p M$.
-    By the Inverse Function Theorem, $d\exp_p|_{cv}$ must be singular. Therefore, $cv$ is a conjugate point of $p$.
-\end{itemize}
-\end{proof}
 }
 \end{document}
