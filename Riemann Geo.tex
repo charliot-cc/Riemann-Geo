@@ -42,7 +42,9 @@
 \DeclareMathOperator{\diam}{diam}
 \DeclareMathOperator{\Ric}{Ric}
 \DeclareMathOperator{\Isom}{Isom}
-
+\DeclareMathOperator{\Hess}{Hess}
+\DeclareMathOperator{\Vol}{Vol}
+\DeclareMathOperator{\inj}{inj}
 
 \begin{document}
 
@@ -3047,5 +3049,319 @@ where $S, \tilde{S} : [a,b] \to S(n, \mathbb{R})$ are continuous, and $\tilde{S}
 
 Suppose $\lim_{t \to a} (\tilde{H}(t) - H(t)) \le 0$. Then $\tilde{H}(t) - H(t) \le 0$ for all $t \in [a,b]$.
 \end{theorem}
+}
+\newpage
+{
+    \section{Lecture 21}
+
+    \subsection{Matrix Riccati Equation Comparison}
+
+\begin{theorem}
+Let $H, \tilde{H} : (a,b] \to S(n, \mathbb{R})$ such that $H' + H^2 + S = 0$ and $\tilde{H}' + \tilde{H}^2 + \tilde{S} = 0$, where $S, \tilde{S} : [a,b] \to S(n, \mathbb{R})$ are continuous, and $\tilde{S} \ge S$ (in the sense that $\tilde S - S$ is positive semi-definite). Suppose $\lim_{t \to a} (\tilde{H}(t) - H(t)) \le 0$. Then $\tilde{H}(t) - H(t) \le 0$ for all $t \in (a, b]$.
+\end{theorem}
+
+\begin{proof}
+Put $A(t) = \tilde{H} - H$ and $B = -\frac{1}{2}(\tilde{H} + H)$. We know $A(a) \le 0$. We want to show $A \le 0$ for all $t$.
+\begin{align*}
+    A' &= \tilde{H}' - H' = -\tilde{H}^2 - \tilde{S} - (-H^2 - S) = H^2 - \tilde{H}^2 + S - \tilde{S} \\
+    &= -\frac{1}{2} \left( (A+H)A + A(A+H) \right) \quad \text{(Algebraic manipulation via $B$)} \\
+    &= AB + BA - \tilde{S} + S.
+\end{align*}
+Besides, 
+\[ B' = -\frac{1}{2}(\tilde{H}' + H') = \frac{1}{2}(\tilde{H}^2 + H^2 + \tilde{S} + S) \ge k\Id \quad\text{since $S,\,\tilde S$ are continuous functions on $[a,b]$ }\] 
+for some constant $k \in \mathbb{R}$.
+Since $\tilde{S} \ge S$, we have $A' \le AB + BA$. 
+Also we have $(B - kt\Id)' \ge 0$. Then,
+\[ 0 \le \int_t^b (B(\tau) - k\tau\Id)' d\tau = B(b) - kb\Id - (B(t) - kt\Id). \]
+So $B(t) \le K\Id$ for some $K \in \mathbb{R}$.
+
+Put $f: [a,b] \times S^{n-1} \to \mathbb{R}$, defined by $f(t,X) = e^{-2Kt} \langle A(t)X, X \rangle$. We have $f(a,X) \le 0$, and we want to show $f(t,X) \le 0$ for all $t,X$. 
+
+If not, say $(t_0, X_0) = \operatorname{argmax} f(t,X)$ with $f(t_0, X_0) > 0$ and $t_0 > 0$.
+Since $\langle A(t_0)X_0, X_0 \rangle = \max_{X \in S^{n-1}} \langle A(t_0)X, X \rangle$, $X_0$ is an eigenvector of $A(t_0)$. 
+Write $A(t_0)X_0 = \lambda_0 X_0$, $\lambda_0 \in \mathbb{R}$. Notice $\lambda_0 = \langle A(t_0)X_0, X_0 \rangle > 0$.
+Also, $\frac{\partial f}{\partial t}(t_0, X_0) \ge 0$ since $t_0 > 0$. However,
+\begin{align*}
+    \frac{\partial f}{\partial t}(t_0, X_0) &= e^{-2Kt_0} \left( \langle A'(t_0)X_0, X_0 \rangle - 2K \langle A(t_0)X_0, X_0 \rangle \right) \\
+    &\le e^{-2Kt_0} \left( \langle (AB+BA)X_0, X_0 \rangle|_{t_0} - 2K \langle A(t_0)X_0, X_0 \rangle \right) \\
+    &= 2 e^{-2Kt_0} \left( \langle AX_0, BX_0 \rangle - \langle AX_0, KX_0 \rangle \right) \\
+    &= 2 e^{-2Kt_0} \lambda_0 \langle X_0, (B - K\Id) X_0 \rangle < 0. \quad \text{Contradiction!}
+\end{align*}
+\end{proof}
+
+\begin{corollary}
+Say $\gamma: [a,b] \to M$ is a unit-speed geodesic. $\eta, \tilde{\eta}$ are self-adjoint endomorphisms of $TM|_{\gamma([a,b])}$ such that $D_t \eta + \eta^2 + \sigma = 0$ and $D_t \tilde{\eta} + \tilde{\eta}^2 + \tilde{\sigma} = 0$. If $\tilde{\sigma} \ge \sigma$ and $\lim_{t \to a}(\tilde{\eta}(t) - \eta(t)) \le 0$, then $\tilde{\eta}(t) - \eta(t) \le 0$ for all $t \in (a,b]$.
+\end{corollary}
+
+
+\subsection{Riccati Comparison for Shape Operators}
+
+\begin{theorem}
+Say $(M,g)$ is a Riemannian manifold, $p \in M$, and $U$ is a normal ball around $p$. Say $r$ is the distance function from $p$ on $U$.
+\begin{enumerate}
+    \item If $K \le c$ (sectional curvature), then on $U_0 \setminus \{p\}$, 
+    \[ \mathcal{H}_r \ge \frac{s_c'}{s_c} \Pi_r \quad\text{Here, $\mathcal{H}_r$ is the shape operator of $U$.}\]
+    where $U_0 = \begin{cases} U & \text{if } c \le 0 \\ U \cap B_p(\pi R) & \text{if } c = \frac{1}{R^2} \end{cases}$, and $\Pi_r$ is the projection onto $\partial_r^\perp$. $s_c = \begin{cases} r & \text{if } c = 0 \\ R \sin(\frac{r}{R}) & \text{if } c = \frac{1}{R^2} \\ R \sinh(\frac{r}{R}) & \text{if } c = -\frac{1}{R^2} \end{cases}$.
+    \item If $K \ge c$, then $\mathcal{H}_r \le \frac{s_c'}{s_c} \Pi_r$ on $U$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Put $U_0 = \{ q \in U : s_c(r(q)) > 0 \}$. On $U_0 \setminus \{p\}$, put $\mathcal{H}_r^c = \frac{s_c'}{s_c} \Pi_r$. We know:
+\[ D_t \mathcal{H}_r^c + (\mathcal{H}_r^c)^2 + c \Pi_r = 0, \quad D_t \mathcal{H}_r + (\mathcal{H}_r)^2 + R_{\dot{\gamma}} = 0. \]
+Check the limit as $t \to 0$:
+\[ \mathcal{H}_r^c(t) \to \frac{1}{t}\Pi_r + O(t), \quad \mathcal{H}_r(t) \to \frac{1}{t}\Pi_r + O(r). \]
+Thus, $\lim_{t \to 0} (\mathcal{H}_r^c - \mathcal{H}_r) = 0$.
+
+Hence if $K \le c$ (which implies $R_{\dot{\gamma}} \le c\Pi_r$), we have $\mathcal{H}_r \ge \mathcal{H}_r^c$. 
+If $K \ge c$, we have $\mathcal{H}_r \le \mathcal{H}_r^c$ on $U_0$. 
+If $c = \frac{1}{R^2}$, radius $\le \pi R$, so $U_0 = U$.
+\end{proof}
+
+
+\subsection{Jacobi Field Estimates}
+
+\begin{proposition}
+Suppose $p \in M$ and $U$ is a normal nbhd of $p$. Take $f = r$ and $F = \partial_r = \nabla f$. $\gamma: [a,b] \to U$ is a unit-speed geodesic with $\gamma(0) = p$, and $J$ is a normal Jacobi field along $\gamma$ with $J(0) = 0$. Then $D_t J = \mathcal{H}_r(J)$.
+\end{proposition}
+
+\begin{proof}
+Take $\sigma: (-\epsilon, \epsilon) \to T_p M$, $|\sigma(s)|=1$. Put $\Gamma(s,t) = \exp_p(t \sigma(s))$. 
+$J(t) = \frac{\partial \Gamma}{\partial s}(0,t)$ is a Jacobi field.
+\[ D_t \partial_s = D_s \partial_t = \nabla_{\partial_s} \partial_r = \mathcal{H}_r(\partial_s). \]
+At $s=0$, $D_t J = \mathcal{H}_r(J)$.
+\end{proof}
+
+\begin{theorem}
+Say $\gamma: [a,b] \to M$ is a unit-speed geodesic, and $J$ is a normal Jacobi field along $\gamma$ with $J(0)=0$.
+\begin{enumerate}
+    \item If $K \le c$, then $|J(t)| \ge s_c(t) |D_t J(0)|$ for all $t \in (0, b_1]$, where $b_1 = b$ if $c \le 0$, and $\min(b, \pi R)$ if $c = 1/R^2$.
+    \item If $K \ge c$, then $|J(t)| \le s_c(t) |D_t J(0)|$ for all $t \in[0, b_2]$, where $b_2 = b$ if there is no conjugate point along $\gamma$, and $\min(b, \text{time of the first conjugate point})$ otherwise.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+We can assume $D_t J(0) \neq 0$ (otherwise $J \equiv 0$).
+Put $f(t) = \log (s_c(t)^{-1} |J(t)|)$.
+\begin{align*}
+    f'(t) &= -\frac{s_c'}{s_c} + \frac{1}{2} \partial_t \log|J(t)|^2 \\
+    &= -\frac{s_c'}{s_c} + \frac{\langle J, D_t J \rangle}{|J(t)|^2} \\
+    &= -\frac{s_c'}{s_c} + \frac{\langle J, \mathcal{H}_r J \rangle}{\langle J, J \rangle}
+\end{align*}
+If $K \le c$, $f'(t) \ge 0$. So $s_c^{-1}(t) |J(t)| \uparrow$ in $t$.
+As $t \to 0$, $s_c(t) \sim t$. $J(t) \sim t D_t J(0)$.
+So $\lim_{t \to 0} s_c(t)^{-1} |J(t)| = |D_t J(0)|$.
+Hence for all $t$, $s_c(t)^{-1} |J(t)| \ge |D_t J(0)|$.
+
+If $K \ge c$, we get $s_c^{-1}(t)|J(t)| \le |D_t J(0)|$. This works as long as $|J(t)| > 0$ and $s_c(t) > 0$.
+If $K \le c$, then $|J(t)| > 0$ as long as $s_c(t) > 0$. 
+i.e., if $K \le c$, then $s_c(t) > 0 \implies |J(t)| > 0$, meaning there is no conjugate point.
+\end{proof}
+
+
+\begin{corollary}
+If $K \le -\frac{1}{R^2}$, then $|J(t)| \ge R \sinh(\frac{t}{R}) |D_t J(0)|$ for all $t$.
+\end{corollary}
+
+\begin{theorem}
+Say $(M,g)$ is a Riemann manifold. $(U, \{x^i\})$ is a normal coordinate chart around $p$. Say $g_c$ is the metric in polar coordinates of constant curvature $c$.
+\begin{enumerate}
+    \item If $K \le c$. If $c \le 0$, then $g \ge g_c$. If $c = \frac{1}{R^2}$, then it is true in $B_p(\pi R)$.
+    \item If $K \ge c$, then $g \le g_c$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Given $q \in U$ and $W \in T_q M$, write $W = Y + Z$, where $Y$ is proportional to $\partial_r$ and $Z \in \partial_r^\perp$. By Gauss lemma, 
+\[ g(W,W) = g(Y,Y) + g(Z,Z), \quad g_c(W,W) = g_c(Y,Y) + g_c(Z,Z). \]
+We have $g(Y,Y) = g_c(Y,Y)$ since both $g$ and $g_c$ have the $dr^2$ term.
+By Jacobi field estimates:
+If $K \le c$, then $g(Z,Z) \ge g_c(Z,Z)$.
+If $K \ge c$, then $g(Z,Z) \le g_c(Z,Z)$.
+\end{proof}
+
+\subsection{The Laplacian in Local Coordinates}
+
+\begin{lemma}
+In local coords, $\Delta f = \frac{1}{\sqrt{g}} \partial_i (\sqrt{g} g^{ij} \partial_j f)$.
+\end{lemma}
+
+\begin{proof}
+Say $f, \tilde{f} \in C_c^\infty(U)$. We use the definition and integration by parts:
+\begin{align*}
+    \int_U f \Delta \tilde{f} dv_M &= \int f g^{ij} \nabla_i \nabla_j \tilde{f} dv_M \\
+    &= - \int g^{ij} (\nabla_i f)(\nabla_j \tilde{f}) dv_M \\
+    &= - \int g^{ij} (\partial_i f)(\partial_j \tilde{f}) \sqrt{g} dx^1 \dots dx^n \\
+    &= \int f \partial_i (g^{ij} \partial_j \tilde{f} \sqrt{g}) dx^1 \dots dx^n \\
+    &= \int f \partial_i (g^{ij} \partial_j \tilde{f} \sqrt{g}) \frac{1}{\sqrt{g}} dVol_M.
+\end{align*}
+Hence, $\Delta \tilde{f} = \frac{1}{\sqrt{g}} \partial_i (\sqrt{g} g^{ij} \partial_j \tilde{f})$.
+\end{proof}
+
+}
+\newpage
+{
+    \section{Lecture 22}
+    
+\section*{Curvature Controls Distances}
+
+\subsection{Sectional Curvature}
+\textbf{Example:} Say $M$ is a simply-connected complete Riemannian manifold with non-positive sectional curvature (i.e., a Hadamard manifold).
+Say $p \in M$, and $\gamma_1, \gamma_2$ are unit-speed geodesics from $p$. So $\angle(\gamma_1'(0), \gamma_2'(0)) = \theta$.
+\[ d(\gamma_1(b), \gamma_2(b)) \ge \text{Corresponding distance in comparison triangle in } \mathbb{R}^2 \]
+i.e., $d(\gamma_1(b), \gamma_2(b)) \ge \sqrt{2b^2 - 2b^2 \cos\theta}$.
+
+\begin{proof}
+All of $M$ is a normal neighborhood of $p$, we work in normal coordinates. We showed $g \ge g_{Euclidean}$ for both $(T_pM, \exp_p^* g)$ and $(T_pM, g_e)$. Radial lines are geodesics.
+\end{proof}
+
+\subsection{Ricci Curvature Controls Distance}
+Recall the Laplacian:
+\[ \Delta f = \sum g^{ij} \nabla_i \nabla_j f \]
+In local coordinates:
+\[ \Delta f = \frac{1}{\sqrt{g}} \partial_i (\sqrt{g} g^{ij} \partial_j f) \]
+
+\begin{proposition}
+In normal coordinates:
+\[ \Delta r = \partial_r \log(r^{n-1} \sqrt{g}) \]
+where $d\text{vol} = \sqrt{g} dx^1 \dots dx^n$.
+\end{proposition}
+
+\begin{proof}
+We know that $\partial_r, dr = \sum (\partial_i r) dx^i$. And $\nabla r = \sum g^{ij} (\partial_j r) \partial_i$.
+But $\partial_r = \sum \frac{x^i}{r} \partial_i$, so $g^{ij} \partial_j r = \frac{x^i}{r}$.
+\begin{align*}
+\Delta r &= \frac{1}{\sqrt{g}} \partial_i \left( \sqrt{g} \frac{x^i}{r} \right) \\
+&= \frac{1}{\sqrt{g}} (\partial_i \sqrt{g}) \frac{x^i}{r} + \partial_i \left( \frac{x^i}{r} \right) \\
+&= \partial_r \log \sqrt{g} + \partial_r ((n-1) \log r) \\
+&= \partial_r \log (r^{n-1} \sqrt{g})
+\end{align*}
+\end{proof}
+
+Write $H_r = \begin{pmatrix} 0 & 0 \\ 0 & * \end{pmatrix}$ as an operator in $\partial_r^\perp$-directions.
+We had $\langle v, H_r w \rangle = \langle v \otimes w, \Hess(r) \rangle$. So $\Hess(r) \cong H_r$. Taking the trace gives $\Delta r = \tr(H_r)$.
+
+Along a geodesic, we had:
+\[ \partial_t H_r + H_r^2 + R_{\dot{\gamma}} = 0 \]
+Taking the trace yields:
+\[ \partial_t (\tr H_r) + \tr(H_r^2) + \tr(R_{\dot{\gamma}}) = 0 \]
+Note that $\tr(R_{\dot{\gamma}}) = \sum_i \langle R(E_i, \dot{\gamma})\dot{\gamma}, E_i \rangle = \Ric(\dot{\gamma}, \dot{\gamma})$.
+
+Put $\mathring{H}_r = H_r - \frac{\Delta r}{n-1} \Pi_r$, where $\Pi_r$ is the projection onto $\partial_r^\perp$.
+\begin{align*}
+\tr(\mathring{H}_r^2) &= \tr\left( \left(H_r - \frac{\Delta r}{n-1} \Pi_r\right) \left(H_r - \frac{\Delta r}{n-1} \Pi_r\right) \right) \\
+&= \tr(H_r^2) - 2 \frac{\Delta r}{n-1} \tr(H_r \Pi_r) + \left(\frac{\Delta r}{n-1}\right)^2 \tr(\Pi_r) \\
+&= \tr(H_r^2) - 2 \frac{(\Delta r)^2}{n-1} + \left(\frac{\Delta r}{n-1}\right)^2 (n-1) \\
+&= \tr(H_r^2) - \frac{(\Delta r)^2}{n-1}
+\end{align*}
+Hence, $\tr(H_r^2) = \tr(\mathring{H}_r^2) + \frac{(\Delta r)^2}{n-1}$.
+
+Substituting this into the trace equation gives the \textbf{Scalar Riccati equation}:
+\[ \partial_t(\Delta r) + \frac{(\Delta r)^2}{n-1} + \tr(\mathring{H}_r^2) + \Ric(\dot{\gamma}, \dot{\gamma}) = 0 \]
+
+\begin{proposition}
+Suppose $\Ric \ge (n-1)cg$. Given $p \in M$. Suppose $U$ is a normal neighborhood of $p$, and $r$ is the distance function from $p$. On $U_0 \setminus \{p\}$, 
+\[ \Delta r \le (n-1) \frac{s_c'}{s_c}(r) = \partial_r \log(s_c^{n-1}) \]
+where 
+\[ U_0 = \begin{cases} 
+U & \text{if } c \le 0 \\ 
+U \cap B_p(\pi R) & \text{if } c = \frac{1}{R^2} 
+\end{cases} \]
+\end{proposition}
+
+\begin{proof}
+Put $H(t) = \frac{s_c'(t)}{s_c(t)}$ and $\tilde{H}(t) = \frac{\Delta r}{n-1}$. Along a radial unit-speed geodesic:
+\[ H' + H^2 + c = 0 \]
+\[ \tilde{H}' + \tilde{H}^2 + \tilde{S} = 0 \]
+where $\tilde{S} = \frac{1}{n-1} (\tr(\mathring{H}_r^2) + \Ric(\dot{\gamma}, \dot{\gamma})) \ge c$.
+Also, by Ricci comparison, $\lim_{t \to 0} (\tilde{H}(t) - H(t)) = 0$. Therefore, $\tilde{H}(t) \le H(t)$ for all $t$.
+\end{proof}
+
+\textbf{Geometric Meaning:} $\frac{\Delta r}{n-1} = \frac{1}{n-1}\tr(H_r)$ is the mean curvature of the geodesic sphere.
+
+\textbf{Example:} $S^1$, $p \in S^1$. Look at $\Delta d_p$.
+On $S^1 \setminus \{p, q\}$, $\Delta d_p = 0$. On $S^1 \setminus \{p\}$, $\Delta d_p = -2\delta_q$.
+In general, on the cut locus of $p$, $\Delta d_p$ is nonpositive as a distribution.
+To make global statements about $\Delta d_p$, one should have assumptions to make upper bounds on $M \setminus \text{cut}(p)$, i.e., lower bound on Ricci curvature.
+
+\subsection{Bishop-Gromov Volume Comparison}
+
+\begin{theorem}[Bishop-Gromov]
+Let $M$ be complete, with $\Ric \ge (n-1)cg$. Given $p \in M$.
+Say $V_g(s) = \text{Volume of } B_p(s)$, and $V_c(s) = \text{volume of a } s\text{-ball in the model space of constant curvature } c$. Then 
+\[ \frac{V_g(s)}{V_c(s)} \downarrow \text{ in } s \]
+Since $\lim_{s \to 0} \frac{V_g(s)}{V_c(s)} = 1$, we get $V_g(s) \le V_c(s)$. Also, if equality holds for any $s$, then $M$ has constant curvature on $B_p(s)$.
+\end{theorem}
+
+\begin{proof}
+\textbf{(Bishop)} Suppose $s < \inj(p)$.
+From the previous proposition:
+\[ \partial_r \log(r^{n-1} \sqrt{g}) = \Delta r \le (n-1) \frac{s_c'}{s_c} = \partial_r \log(s_c^{n-1}) \]
+\[ \partial_r \log \left( \frac{r^{n-1} \sqrt{g}}{s_c^{n-1}} \right) \le 0 \implies \frac{r^{n-1} \sqrt{g}}{s_c^{n-1}} \downarrow \text{ in } r \]
+Since $\lim_{r \to 0} \frac{r^{n-1} \sqrt{g}(r, \theta)}{s_c^{n-1}(r)} = 1$, we have:
+\[ \frac{r^{n-1} \sqrt{g}}{s_c^{n-1}} \le 1, \quad \text{i.e., } r^{n-1} \sqrt{g} \le s_c^{n-1}(r) \]
+The volumes are given by integrating the volume form in polar coordinates:
+\[ V_g(s) = \int_{S^{n-1}} \int_0^s \sqrt{g}(p, \theta) r^{n-1} \, dr \, d\theta \]
+\[ V_c(s) = \int_{S^{n-1}} \int_0^s s_c^{n-1}(r) \, dr \, d\theta = \Vol(S^{n-1}) \int_0^s s_c^{n-1}(r) \, dr \]
+Taking the ratio:
+\[ \frac{V_g(s)}{V_c(s)} = \frac{1}{\Vol(S^{n-1})} \int_{S^{n-1}} \frac{\int_0^s r^{n-1} \sqrt{g}(r,\theta) \, dr}{\int_0^s s_c^{n-1}(r) \, dr} \, d\theta \]
+But for any $\theta$, $\frac{r^{n-1} \sqrt{g}(p, \theta)}{s_c^{n-1}(r)} \downarrow$ in $r$. By standard calculus lemmas, this implies the ratio of their integrals $\frac{\int_0^s r^{n-1} \sqrt{g} \, dr}{\int_0^s s_c^{n-1} \, dr} \downarrow$ in $s$.
+
+\textbf{(Gromov)} For general $s$, we know $\exp_p$ maps $ID(p)$ (the injectivity domain) diffeomorphically to $M \setminus \text{cut}(p)$, which has full measure on $M$.
+Put:
+\[ \lambda(r, \theta) = \begin{cases} 
+\frac{r^{n-1} \sqrt{g}(p, \theta)}{s_c^{n-1}(r)} & \text{if } (r, \theta) \in ID(p) \\
+0 & \text{if } (r, \theta) \notin ID(p)
+\end{cases} \]
+Then:
+\[ \frac{V_g(s)}{V_c(s)} = \frac{1}{\Vol(S^{n-1})} \int_{S^{n-1}} \frac{\int_0^s \lambda(r, \theta) s_c^{n-1}(r) \, dr}{\int_0^s s_c^{n-1}(r) \, dr} \, d\theta \]
+Because $ID(p)$ is star-shaped with respect to the origin, $\lambda(r, \theta) \downarrow$ in $r$. Hence the ratio $\downarrow$ in $s$.
+
+\textbf{Equality case:} If equality holds, we find $\mathring{H}_r = 0$, so $H_r = \frac{s_c'}{s_c} \Pi_r$. This implies the metric is locally $g = dr^2 + s_c^2(r) g_{S^{n-1}}$, which means it is isometric to the space of constant curvature.
+\end{proof}
+
+\subsection{Cut Locus and Conjugate Points}
+
+Let $M$ be connected and complete, $p \in M$.
+\begin{definition}
+For $v \in T_p M$, define $t(v) = \sup \{ b > 0 : \gamma_v|_{[0,b]} \text{ is minimizing} \}$.
+The \textbf{cut point} of $p$ along $\gamma_v$ is defined as $\gamma_v(t(v))$.
+The \textbf{cut locus} of $p$ is the union of the cut points along all geodesics from $p$.
+\end{definition}
+
+\begin{proposition}
+Given $p \in M$, $v \in T_p M$ with $|v| = 1$. Put $c = t(v)$.
+\begin{enumerate}
+    \item If $0 < b < c$, then $\gamma_v|_{[0,b]}$ has no conjugate points and is minimizing.
+    \item If $c < \infty$, then $\gamma_v|_{[0,c]}$ is minimizing, and $\gamma_v(c)$ is conjugate to $p$ along $\gamma_v$, OR there exist at least two distinct minimizing geodesics from $p$ to $\gamma_v(c)$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+\textbf{1.} Choose $b < b' < c$. If $\gamma_v|_{[0,b']}$ has a conjugate point, or if there are two minimizing geodesics between its endpoints, then $\gamma_v|_{[0,b']}$ is not minimizing. This contradicts $c = \sup \{ b > 0 \}$.
+
+\textbf{2.} Take $b_i \nearrow c$. Since $\gamma_v|_{[0, b_i]}$ is minimizing, $d(p, \gamma_v(b_i)) = b_i$. By continuity of distance, $d(p, \gamma_v(c)) = \lim d(p, \gamma_v(b_i)) = \lim b_i = c$. So $\gamma_v$ is minimizing on $[0, c]$.
+
+Assume $c < \infty$. Take $b_i \searrow c$. Then $\gamma_v|_{[0, b_i]}$ is not minimizing. There exists a unit-speed minimizing geodesic $\sigma_i: [0, a_i] \to M$ so that $\sigma_i(a_i) = \gamma_v(b_i)$, where $a_i < b_i$.
+Put $w_i = \dot{\sigma}_i(0) \in T_p M$, $|w_i| = 1$. 
+
+After passing to a subsequence, we can assume $w_i \to w$ and $a_i \to a$.
+By continuity of the exponential map, $\sigma_i(a_i) = \exp_p(a_i w_i) \to \exp_p(a w) = \gamma_w(a)$.
+Also $\sigma_i(a_i) = \gamma_v(b_i) \to \gamma_v(c)$. So $\gamma_w(a) = \gamma_v(c)$.
+
+Since the distance function is continuous:
+\[ c = d(p, \gamma_v(c)) = \lim d(p, \gamma_v(b_i)) = \lim d(p, \sigma_i(a_i)) = \lim a_i = a \]
+So $a = c$. Thus $\gamma_w|_{[0,c]}$ is also a minimizing geodesic from $p$ to $\gamma_v(c)$.
+
+\begin{itemize}
+    \item If $v \neq w$, then we have found two distinct minimizing geodesics from $p$ to $\gamma_v(c)$.
+    \item If $v = w$, we need to show that $\gamma_v(c)$ is conjugate to $p$ along $\gamma_v$.
+    Since $a_i < b_i$, we have $a_i w_i \neq b_i v$. 
+    However, $\exp_p(a_i w_i) = \sigma_i(a_i) = \gamma_v(b_i) = \exp_p(b_i v)$.
+    We also have $a_i w_i \to c w = c v$ and $b_i v \to c v$.
+    This means $\exp_p$ maps distinct points converging to $cv$ to the same image point. Hence, $\exp_p$ is not injective in any neighborhood of $cv \in T_p M$.
+    By the Inverse Function Theorem, $d\exp_p|_{cv}$ must be singular. Therefore, $cv$ is a conjugate point of $p$.
+\end{itemize}
+\end{proof}
 }
 \end{document}
